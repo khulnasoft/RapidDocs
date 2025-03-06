@@ -1,0 +1,28 @@
+{
+  "extends": "@khulnasoft/configs/tsconfig/main.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../../commons/fs-utils"
+    },
+    {
+      "path": "../configuration-loader"
+    },
+    {
+      "path": "../task-context"
+    },
+    {
+      "path": "../workspace/loader"
+    },
+    {
+      "path": "../workspace/commons"
+    }
+  ]
+}

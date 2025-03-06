@@ -1,0 +1,95 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rapiddocs api update > rapiddocs api update 1`] = `
+[
+  {
+    "contents": "{
+    "version": "*",
+    "organization": "rapiddocs"
+}",
+    "name": "rapiddocs.config.json",
+    "type": "file",
+  },
+  {
+    "contents": "default-group: local
+api:
+  path: ./openapi/openapi.json
+  origin: http://localhost:4567/openapi.json
+groups:
+  local:
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.9.5
+        output:
+          location: local-file-system
+          path: ../sdks/typescript",
+    "name": "generators.yml",
+    "type": "file",
+  },
+  {
+    "contents": [
+      {
+        "contents": "{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Test API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/testdata": {
+      "get": {
+        "summary": "Retrieve test data",
+        "operationId": "getTestData",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filtered": {
+      "get": {
+        "summary": "This endpoint should be filtered out",
+        "operationId": "filtered",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}",
+        "name": "openapi.json",
+        "type": "file",
+      },
+    ],
+    "name": "openapi",
+    "type": "directory",
+  },
+]
+`;

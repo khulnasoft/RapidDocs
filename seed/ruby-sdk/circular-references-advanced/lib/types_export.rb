@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+require_relative "rapiddocs_circular_references_advanced/types/importing_a"
+require_relative "rapiddocs_circular_references_advanced/types/root_type"
+require_relative "rapiddocs_circular_references_advanced/a/types/a"
+require_relative "rapiddocs_circular_references_advanced/ast/types/container_value"
+require_relative "rapiddocs_circular_references_advanced/ast/types/primitive_value"
+require_relative "rapiddocs_circular_references_advanced/ast/types/object_value"
+require_relative "rapiddocs_circular_references_advanced/ast/types/field_value"
+require_relative "rapiddocs_circular_references_advanced/ast/types/object_field_value"

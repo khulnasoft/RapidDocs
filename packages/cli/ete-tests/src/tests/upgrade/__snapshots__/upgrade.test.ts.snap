@@ -1,0 +1,54 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rapiddocs upgrade > upgrades generators 1`] = `
+"groups:
+  internal:
+    generators:
+      - name: rapiddocsapi/rapiddocs-postman
+        version: 0.0.15
+        output:
+          location: local-file-system
+          path: ./generated-postman
+      - name: rapiddocsapi/rapiddocs-openapi
+        version: 0.0.3
+        output:
+          location: local-file-system
+          path: ./generated-openapi
+        config:
+          format: yaml
+      - name: rapiddocsapi/rapiddocs-java-sdk
+        version: 0.0.50
+        output:
+          location: maven
+          coordinate: ''
+      - name: rapiddocsapi/rapiddocs-typescript-sdk
+        version: 0.0.11
+        output:
+          location: npm
+          package-name: ''
+  external:
+    generators:
+      - name: rapiddocsapi/rapiddocs-postman
+        version: 0.0.20
+        output:
+          location: local-file-system
+          path: ./generated-postman
+      - name: rapiddocsapi/rapiddocs-openapi
+        version: 0.0.2
+        output:
+          location: local-file-system
+          path: ./generated-openapi
+        config:
+          format: yaml
+      - name: rapiddocsapi/rapiddocs-java-sdk
+        version: 0.0.81
+        output:
+          location: maven
+          coordinate: ''
+      - name: rapiddocsapi/rapiddocs-typescript-sdk
+        version: 0.0.14
+        output:
+          location: npm
+          package-name: ''
+"
+`;

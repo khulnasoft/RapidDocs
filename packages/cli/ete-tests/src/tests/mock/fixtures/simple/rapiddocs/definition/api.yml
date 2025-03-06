@@ -1,0 +1,9 @@
+name: simple
+auth: bearer
+default-environment: Production
+environments:
+  Production: https://buildwithrapiddocs.com
+  Staging: https://staging.buildwithrapiddocs.com
+base-path: /test/{rootPathParam}
+path-parameters:
+  rootPathParam: string

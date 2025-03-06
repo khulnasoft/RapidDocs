@@ -1,0 +1,135 @@
+using System.Text.Json.Nodes;
+using NUnit.Framework;
+using SeedObjectsWithImports;
+using SeedObjectsWithImports.Commons;
+using SeedObjectsWithImports.Core;
+
+namespace SeedObjectsWithImports.Test;
+
+[TestFixture]
+public class NodeTest
+{
+    [Test]
+    public void TestDeserialization_1()
+    {
+        var json = """
+            {
+              "id": "node-8dvgfja2",
+              "label": "left",
+              "metadata": {
+                "id": "metadata-kjasf923",
+                "data": {
+                  "foo": "bar",
+                  "baz": "qux"
+                }
+              }
+            }
+            """;
+        var expectedObject = new Node
+        {
+            Id = "node-8dvgfja2",
+            Label = "left",
+            Metadata = new Metadata
+            {
+                Id = "metadata-kjasf923",
+                Data = new Dictionary<string, string>() { { "foo", "bar" }, { "baz", "qux" } },
+            },
+        };
+        var deserializedObject = JsonUtils.Deserialize<Node>(json);
+        var serializedJson = JsonUtils.Serialize(deserializedObject);
+        Assert.That(deserializedObject, Is.EqualTo(expectedObject).UsingPropertiesComparer());
+    }
+
+    [Test]
+    public void TestSerialization_1()
+    {
+        var json = """
+            {
+              "id": "node-8dvgfja2",
+              "label": "left",
+              "metadata": {
+                "id": "metadata-kjasf923",
+                "data": {
+                  "foo": "bar",
+                  "baz": "qux"
+                }
+              }
+            }
+            """;
+        var obj = new Node
+        {
+            Id = "node-8dvgfja2",
+            Label = "left",
+            Metadata = new Metadata
+            {
+                Id = "metadata-kjasf923",
+                Data = new Dictionary<string, string>() { { "foo", "bar" }, { "baz", "qux" } },
+            },
+        };
+        var objAsNode = JsonUtils.SerializeToNode(obj);
+        var jsonAsNode = JsonUtils.Deserialize<JsonNode>(json);
+        Assert.That(objAsNode, Is.EqualTo(jsonAsNode).UsingPropertiesComparer());
+    }
+
+    [Test]
+    public void TestDeserialization_2()
+    {
+        var json = """
+            {
+              "id": "node-cwda9fi2x",
+              "label": "right",
+              "metadata": {
+                "id": "metadata-lkasdfv9j",
+                "data": {
+                  "one": "two",
+                  "three": "four"
+                }
+              }
+            }
+            """;
+        var expectedObject = new Node
+        {
+            Id = "node-cwda9fi2x",
+            Label = "right",
+            Metadata = new Metadata
+            {
+                Id = "metadata-lkasdfv9j",
+                Data = new Dictionary<string, string>() { { "one", "two" }, { "three", "four" } },
+            },
+        };
+        var deserializedObject = JsonUtils.Deserialize<Node>(json);
+        var serializedJson = JsonUtils.Serialize(deserializedObject);
+        Assert.That(deserializedObject, Is.EqualTo(expectedObject).UsingPropertiesComparer());
+    }
+
+    [Test]
+    public void TestSerialization_2()
+    {
+        var json = """
+            {
+              "id": "node-cwda9fi2x",
+              "label": "right",
+              "metadata": {
+                "id": "metadata-lkasdfv9j",
+                "data": {
+                  "one": "two",
+                  "three": "four"
+                }
+              }
+            }
+            """;
+        var obj = new Node
+        {
+            Id = "node-cwda9fi2x",
+            Label = "right",
+            Metadata = new Metadata
+            {
+                Id = "metadata-lkasdfv9j",
+                Data = new Dictionary<string, string>() { { "one", "two" }, { "three", "four" } },
+            },
+        };
+        var objAsNode = JsonUtils.SerializeToNode(obj);
+        var jsonAsNode = JsonUtils.Deserialize<JsonNode>(json);
+        Assert.That(objAsNode, Is.EqualTo(jsonAsNode).UsingPropertiesComparer());
+    }
+}

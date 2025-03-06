@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+require_relative "rapiddocs_unions/types/types/union"
+require_relative "rapiddocs_unions/types/types/union_with_discriminant"
+require_relative "rapiddocs_unions/types/types/union_with_primitive"
+require_relative "rapiddocs_unions/types/types/union_without_key"
+require_relative "rapiddocs_unions/types/types/union_with_unknown"
+require_relative "rapiddocs_unions/types/types/union_with_literal"
+require_relative "rapiddocs_unions/types/types/union_with_base_properties"
+require_relative "rapiddocs_unions/types/types/union_with_time"
+require_relative "rapiddocs_unions/types/types/union_with_optional_time"
+require_relative "rapiddocs_unions/types/types/union_with_single_element"
+require_relative "rapiddocs_unions/types/types/foo"
+require_relative "rapiddocs_unions/types/types/bar"
+require_relative "rapiddocs_unions/union/types/get_shape_request"
+require_relative "rapiddocs_unions/union/types/shape"
+require_relative "rapiddocs_unions/union/types/circle"
+require_relative "rapiddocs_unions/union/types/square"

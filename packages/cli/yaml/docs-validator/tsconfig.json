@@ -1,0 +1,42 @@
+{
+  "extends": "@khulnasoft/configs/tsconfig/main.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": [
+    "./src/**/*",
+    "./src/**/*.json"
+  ],
+  "references": [
+    {
+      "path": "../../../commons/core-utils"
+    },
+    {
+      "path": "../../../commons/fs-utils"
+    },
+    {
+      "path": "../../configuration-loader"
+    },
+    {
+      "path": "../../docs-markdown-utils"
+    },
+    {
+      "path": "../../logger"
+    },
+    {
+      "path": "../../task-context"
+    },
+    {
+      "path": "../../workspace/loader"
+    },
+    {
+      "path": "../../project-loader"
+    },
+    {
+      "path": "../../rapiddocs-definition/schema"
+    },
+    { "path": "../../docs-resolver" }
+  ]
+}

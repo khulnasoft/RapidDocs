@@ -1,0 +1,74 @@
+---
+title: Preview your SDK
+subtitle: Use Rapiddocs's CLI tool to preview your SDK locally.
+---
+
+[Once you configure your SDK](/learn/sdks/getting-started/generate-your-first-sdk), you can preview the generated SDK code using Rapiddocs's CLI.
+
+Simply append the `--preview` flag to the command used to generate the SDK and you will see the generated code populated in a `.preview` folder within your `rapiddocs` folder.
+
+<Tip title="Custom Code">
+  [If you have added custom code to your SDK](/learn/sdks/capabilities/augment-with-custom-code), `--preview` will
+  preserve those changes.
+</Tip>
+
+Here's an example of how you can preview your SDK:
+
+<Steps>
+### Generator configuration
+```yaml generators.yml
+api: 
+  path: ./path/to/openapi.yml
+groups:
+  python-sdk:
+    generators:
+      - name: rapiddocsapi/rapiddocs-python-sdk
+        version: 3.0.0
+        output:
+          location: pypi
+          package-name: imdb
+          token: ${PYPI_TOKEN}
+        github:
+          repository: imdb/imdb-python
+        config:
+          client_class_name: imdb
+```
+
+### Invoke the Rapiddocs CLI
+
+```shell
+rapiddocs generate --group python-sdk --preview
+```
+
+### Preview your SDK
+
+The resulting folder structure will look like this:
+
+<Tabs>
+<Tab title="OpenAPI">
+```shell {3-5}
+rapiddocs/
+  ├─ rapiddocs.config.json
+  ├─ .preview/
+    └─ rapiddocs-python-sdk/
+      └─ ...
+  ├─ generators.yml
+  └─ openapi/
+    └─ openapi.yml
+```
+</Tab>
+<Tab title="Rapiddocs Definition">
+```shell {3-5}
+rapiddocs/
+  ├─ rapiddocs.config.json
+  ├─ .preview/
+    └─ rapiddocs-python-sdk/
+      └─ ...
+  ├─ generators.yml
+  └─ definition/
+    ├─ api.yml
+    └─ imdb.yml
+```
+</Tab>
+</Tabs>
+</Steps>

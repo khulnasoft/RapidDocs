@@ -1,0 +1,24 @@
+irVersion: v53
+displayName: Postman
+image: rapiddocsapi/rapiddocs-postman
+changelogLocation: ../../generators/postman/versions.yml
+publish:
+  preBuildCommands:
+    - pnpm --filter @khulnasoft/postman-generator dist:cli
+  docker:
+    file: ./generators/postman/Dockerfile
+    image: rapiddocsapi/rapiddocs-postman
+    context: ./generators/postman
+test:
+  docker:
+    image: rapiddocsapi/rapiddocs-postman:latest
+    command: pnpm --filter @khulnasoft/postman-generator dockerTagLatest
+fixtures:
+  imdb:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        collection-name: GA Imdb Collection
+      outputFolder: collection-name
+generatorType: Documentation
+defaultOutputMode: local_files

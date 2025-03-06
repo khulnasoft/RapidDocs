@@ -1,0 +1,1 @@
+export const RAPIDDOCS_CWD_ENV_VAR = "RAPIDDOCS_CWD";

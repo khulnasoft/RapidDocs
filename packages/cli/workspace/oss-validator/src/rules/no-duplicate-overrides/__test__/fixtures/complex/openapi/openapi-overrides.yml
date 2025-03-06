@@ -1,0 +1,15 @@
+paths:
+  /a/{alpha}:
+    get:
+      x-rapiddocs-sdk-group-name:
+        - a
+        - b
+        - c
+      x-rapiddocs-sdk-method-name: d
+  /a/b:
+    get:
+      x-rapiddocs-sdk-group-name:
+        - a
+        - b
+        - c
+      x-rapiddocs-sdk-method-name: d

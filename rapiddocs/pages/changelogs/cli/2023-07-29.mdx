@@ -1,0 +1,9 @@
+## 0.11.12-rc1
+**`(chore):`** - Support `x-rapiddocs-ignore` OpenAPI extension. This extensions configures rapiddocs to ignore certain endpoints when generating SDKs. (@dsinghvi) 
+  ```yaml
+  paths: 
+    my/endpoint/path: 
+      get: 
+        x-rapiddocs-ignore: true # <------- rapiddocs will skip this endpoint
+  ```
+

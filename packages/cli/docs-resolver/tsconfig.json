@@ -1,0 +1,43 @@
+{
+  "extends": "@khulnasoft/configs/tsconfig/main.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../../commons/core-utils"
+    },
+    {
+      "path": "../../commons/fs-utils"
+    },
+    {
+      "path": "../../ir-sdk"
+    },
+    {
+      "path": "../cli-source-resolver"
+    },
+    {
+      "path": "../configuration-loader"
+    },
+    {
+      "path": "../docs-markdown-utils"
+    },
+    {
+      "path": "../generation/ir-generator"
+    },
+    {
+      "path": "../register"
+    },
+    {
+      "path": "../task-context"
+    },
+    {
+      "path": "../workspace/loader"
+    }
+  ]
+}

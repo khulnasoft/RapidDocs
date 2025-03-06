@@ -1,0 +1,282 @@
+[
+    {
+        "sdk": {
+            "package": "rapiddocs_imdb",
+            "version": "0.0.1",
+            "type": "python"
+        },
+        "endpointId": {
+            "path": "/movies/create-movie",
+            "method": "POST",
+            "identifierOverride": "endpoint_imdb.createMovie"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "from seed import SeedApi"
+                ],
+                "isOptional": true,
+                "templateString": "client = SeedApi(base_url=\"https://yourhost.com/path/to/api\", $RAPIDDOCS_INPUT, )",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": false,
+                            "templateString": "token=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "AUTH",
+                                    "path": "token",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",",
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "isOptional": true,
+                "templateString": "client.imdb.create_movie(\n\t$RAPIDDOCS_INPUT\n)",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "title=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "BODY",
+                                    "path": "title",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "rating=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "BODY",
+                                    "path": "rating",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",\n\t",
+                "type": "generic"
+            },
+            "type": "v1"
+        },
+        "additionalTemplates": {
+            "async": {
+                "clientInstantiation": {
+                    "imports": [
+                        "from seed import AsyncSeedApi"
+                    ],
+                    "isOptional": true,
+                    "templateString": "client = AsyncSeedApi(base_url=\"https://yourhost.com/path/to/api\", $RAPIDDOCS_INPUT, )",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": false,
+                                "templateString": "token=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "AUTH",
+                                        "path": "token",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",",
+                    "type": "generic"
+                },
+                "functionInvocation": {
+                    "imports": [],
+                    "isOptional": true,
+                    "templateString": "await client.imdb.create_movie(\n\t$RAPIDDOCS_INPUT\n)",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "title=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "BODY",
+                                        "path": "title",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "rating=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "BODY",
+                                        "path": "rating",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",\n\t",
+                    "type": "generic"
+                },
+                "type": "v1"
+            }
+        }
+    },
+    {
+        "sdk": {
+            "package": "rapiddocs_imdb",
+            "version": "0.0.1",
+            "type": "python"
+        },
+        "endpointId": {
+            "path": "/movies/{movieId}",
+            "method": "GET",
+            "identifierOverride": "endpoint_imdb.getMovie"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "from seed import SeedApi"
+                ],
+                "isOptional": true,
+                "templateString": "client = SeedApi(base_url=\"https://yourhost.com/path/to/api\", $RAPIDDOCS_INPUT, )",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": false,
+                            "templateString": "token=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "AUTH",
+                                    "path": "token",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",",
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "isOptional": true,
+                "templateString": "client.imdb.get_movie(\n\t$RAPIDDOCS_INPUT\n)",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "movie_id=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "PATH",
+                                    "path": "movieId",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",\n\t",
+                "type": "generic"
+            },
+            "type": "v1"
+        },
+        "additionalTemplates": {
+            "async": {
+                "clientInstantiation": {
+                    "imports": [
+                        "from seed import AsyncSeedApi"
+                    ],
+                    "isOptional": true,
+                    "templateString": "client = AsyncSeedApi(base_url=\"https://yourhost.com/path/to/api\", $RAPIDDOCS_INPUT, )",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": false,
+                                "templateString": "token=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "AUTH",
+                                        "path": "token",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",",
+                    "type": "generic"
+                },
+                "functionInvocation": {
+                    "imports": [],
+                    "isOptional": true,
+                    "templateString": "await client.imdb.get_movie(\n\t$RAPIDDOCS_INPUT\n)",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "movie_id=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "PATH",
+                                        "path": "movieId",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",\n\t",
+                    "type": "generic"
+                },
+                "type": "v1"
+            }
+        }
+    }
+]

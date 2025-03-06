@@ -1,0 +1,18 @@
+{
+    "irFilepath": "ir.json",
+    "output": {
+        "mode": {
+            "type": "downloadFiles"
+        },
+        "path": "tmp"
+    },
+    "customConfig": {
+      "importPath": "github.com/khulnasoft/rapiddocs-go/internal/testdata/sdk/optional-filename/fixtures"
+    },
+    "workspaceName": "test",
+    "organization": "rapiddocsbot",
+    "environment": {
+        "_type": "local"
+    },
+    "dryRun": false
+}

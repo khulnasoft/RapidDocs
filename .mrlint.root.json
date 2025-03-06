@@ -1,0 +1,4 @@
+{
+  "defaultScope": "@khulnasoft",
+  "packages": "packages/**"
+}

@@ -1,0 +1,16 @@
+groups:
+  python-sdk:
+    audiences:
+      - external
+    generators:
+      - name: rapiddocsapi/rapiddocs-python-sdk
+        version: 2.0.0
+        output:
+          location: pypi
+          package-name: khulnasoft
+          token: ${PYPI_TOKEN}
+        github:
+          repository: khulnasoft/python-sdk
+          license: MIT
+        config:
+          client_class_name: Rapiddocs

@@ -1,0 +1,11 @@
+irVersion: v53
+displayName: Pydantic Model
+image: rapiddocsapi/rapiddocs-pydantic-model-v2
+test:
+  docker:
+    image: rapiddocsapi/rapiddocs-pydantic-model-v2:latest
+    command: pnpm --filter @khulnasoft/rapiddocs-pydantic-model dockerTagLatest
+
+language: python
+generatorType: Model
+defaultOutputMode: local_files

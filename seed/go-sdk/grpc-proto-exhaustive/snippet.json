@@ -1,0 +1,81 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/data",
+                "method": "POST",
+                "identifier_override": "endpoint_dataservice.upload"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.Upload(\n\tcontext.TODO(),\n\t\u0026rapiddocs.UploadRequest{\n\t\tColumns: []*rapiddocs.Column{\n\t\t\t\u0026rapiddocs.Column{\n\t\t\t\tId: \"id\",\n\t\t\t\tValues: []float64{\n\t\t\t\t\t1.1,\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/data/delete",
+                "method": "POST",
+                "identifier_override": "endpoint_dataservice.delete"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.Delete(\n\tcontext.TODO(),\n\t\u0026rapiddocs.DeleteRequest{},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/data/describe",
+                "method": "POST",
+                "identifier_override": "endpoint_dataservice.describe"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.Describe(\n\tcontext.TODO(),\n\t\u0026rapiddocs.DescribeRequest{},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/data/fetch",
+                "method": "GET",
+                "identifier_override": "endpoint_dataservice.fetch"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.Fetch(\n\tcontext.TODO(),\n\t\u0026rapiddocs.FetchRequest{},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/data/list",
+                "method": "GET",
+                "identifier_override": "endpoint_dataservice.list"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.List(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListRequest{},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/data/query",
+                "method": "POST",
+                "identifier_override": "endpoint_dataservice.query"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.Query(\n\tcontext.TODO(),\n\t\u0026rapiddocs.QueryRequest{\n\t\tTopK: 1,\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/data/update",
+                "method": "POST",
+                "identifier_override": "endpoint_dataservice.update"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/grpc-proto-exhaustive/rapiddocs\"\n\trapiddocsclient \"github.com/grpc-proto-exhaustive/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Dataservice.Update(\n\tcontext.TODO(),\n\t\u0026rapiddocs.UpdateRequest{\n\t\tId: \"id\",\n\t},\n)\n"
+            }
+        }
+    ]
+}

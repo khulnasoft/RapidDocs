@@ -1,0 +1,31 @@
+export const GeneratorName = {
+    TYPESCRIPT: "rapiddocsapi/rapiddocs-typescript",
+    TYPESCRIPT_SDK: "rapiddocsapi/rapiddocs-typescript-sdk",
+    TYPESCRIPT_NODE_SDK: "rapiddocsapi/rapiddocs-typescript-node-sdk",
+    TYPESCRIPT_BROWSER_SDK: "rapiddocsapi/rapiddocs-typescript-browser-sdk",
+    TYPESCRIPT_EXPRESS: "rapiddocsapi/rapiddocs-typescript-express",
+    JAVA: "rapiddocsapi/rapiddocs-java",
+    JAVA_MODEL: "rapiddocsapi/java-model",
+    JAVA_SDK: "rapiddocsapi/rapiddocs-java-sdk",
+    JAVA_SPRING: "rapiddocsapi/rapiddocs-java-spring",
+    PYTHON_FASTAPI: "rapiddocsapi/rapiddocs-fastapi-server",
+    PYTHON_PYDANTIC: "rapiddocsapi/rapiddocs-pydantic-model",
+    PYTHON_SDK: "rapiddocsapi/rapiddocs-python-sdk",
+    GO_MODEL: "rapiddocsapi/rapiddocs-go-model",
+    GO_SDK: "rapiddocsapi/rapiddocs-go-sdk",
+    GO_FIBER: "rapiddocsapi/rapiddocs-go-fiber",
+    RUBY_MODEL: "rapiddocsapi/rapiddocs-ruby-model",
+    RUBY_SDK: "rapiddocsapi/rapiddocs-ruby-sdk",
+    CSHARP_MODEL: "rapiddocsapi/rapiddocs-csharp-model",
+    CSHARP_SDK: "rapiddocsapi/rapiddocs-csharp-sdk",
+    SWIFT_MODEL: "rapiddocsapi/rapiddocs-swift-model",
+    SWIFT_SDK: "rapiddocsapi/rapiddocs-swift-sdk",
+    PHP_MODEL: "rapiddocsapi/rapiddocs-php-model",
+    PHP_SDK: "rapiddocsapi/rapiddocs-php-sdk",
+    OPENAPI: "rapiddocsapi/rapiddocs-openapi",
+    STOPLIGHT: "rapiddocsapi/rapiddocs-stoplight",
+    POSTMAN: "rapiddocsapi/rapiddocs-postman",
+    OPENAPI_PYTHON_CLIENT: "rapiddocsapi/openapi-python-client"
+} as const;
+
+export type GeneratorName = (typeof GeneratorName)[keyof typeof GeneratorName];

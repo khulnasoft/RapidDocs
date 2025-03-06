@@ -1,0 +1,9 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "@khulnasoft/configs/tsconfig/main.json",
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/__test__"],
+    "compilerOptions": {
+        "composite": false
+    }
+}

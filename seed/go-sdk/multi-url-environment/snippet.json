@@ -1,0 +1,26 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/ec2/boot",
+                "method": "POST",
+                "identifier_override": "endpoint_ec2.bootInstance"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/multi-url-environment/rapiddocs\"\n\trapiddocsclient \"github.com/multi-url-environment/rapiddocs/client\"\n\toption \"github.com/multi-url-environment/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nerr := client.Ec2.BootInstance(\n\tcontext.TODO(),\n\t\u0026rapiddocs.BootInstanceRequest{\n\t\tSize: \"size\",\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/s3/presigned-url",
+                "method": "POST",
+                "identifier_override": "endpoint_s3.getPresignedUrl"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/multi-url-environment/rapiddocs\"\n\trapiddocsclient \"github.com/multi-url-environment/rapiddocs/client\"\n\toption \"github.com/multi-url-environment/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.S3.GetPresignedUrl(\n\tcontext.TODO(),\n\t\u0026rapiddocs.GetPresignedUrlRequest{\n\t\tS3Key: \"s3Key\",\n\t},\n)\n"
+            }
+        }
+    ]
+}

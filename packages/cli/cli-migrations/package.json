@@ -1,0 +1,58 @@
+{
+  "name": "@khulnasoft/cli-migrations",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khulnasoft/rapiddocs.git",
+    "directory": "packages/cli/yaml/yaml-migrations"
+  },
+  "private": true,
+  "files": [
+    "lib"
+  ],
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf ./lib && tsc --build --clean",
+    "compile": "tsc --build",
+    "test": "vitest --run",
+    "test:update": "vitest --run -u",
+    "lint:eslint": "eslint --max-warnings 0 . --ignore-pattern=../../../../.eslintignore",
+    "lint:eslint:fix": "yarn lint:eslint --fix",
+    "format": "prettier --write --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
+    "format:check": "prettier --check --ignore-unknown --ignore-path ../../../../shared/.prettierignore \"**\"",
+    "depcheck": "depcheck"
+  },
+  "dependencies": {
+    "@khulnasoft/configuration-loader": "workspace:*",
+    "@khulnasoft/core-utils": "workspace:*",
+    "@khulnasoft/fs-utils": "workspace:*",
+    "@khulnasoft/semver-utils": "workspace:*",
+    "@khulnasoft/task-context": "workspace:*",
+    "@rapiddocs-rapiddocs/docs-config": "0.0.80",
+    "@rapiddocs-rapiddocs/legacy-docs-config": "0.0.58",
+    "chalk": "^5.3.0",
+    "find-up": "^6.3.0",
+    "glob": "^11.0.0",
+    "inquirer": "^9.2.23",
+    "js-yaml": "^4.1.0",
+    "yaml": "^2.4.5",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/js-yaml": "^4.0.8",
+    "tmp-promise": "^3.0.3",
+    "@khulnasoft/configs": "workspace:*",
+    "@types/node": "18.15.3",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.56.0",
+    "prettier": "^3.4.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
+    "typescript": "5.7.2",
+    "vitest": "^2.1.9"
+  }
+}

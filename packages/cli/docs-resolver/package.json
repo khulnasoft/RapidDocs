@@ -1,0 +1,63 @@
+{
+  "name": "@khulnasoft/docs-resolver",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khulnasoft/rapiddocs.git",
+    "directory": "packages/cli/docs-resolver"
+  },
+  "private": true,
+  "files": [
+    "lib"
+  ],
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf ./lib && tsc --build --clean",
+    "compile": "tsc --build",
+    "test": "vitest --run src/utils/__test__",
+    "lint:eslint": "eslint --max-warnings 0 . --ignore-pattern=../../../.eslintignore",
+    "lint:eslint:fix": "yarn lint:eslint --fix",
+    "format": "prettier --write --ignore-unknown --ignore-path ../../../shared/.prettierignore \"**\"",
+    "format:check": "prettier --check --ignore-unknown --ignore-path ../../../shared/.prettierignore \"**\"",
+    "depcheck": "depcheck"
+  },
+  "dependencies": {
+    "@khulnasoft/api-workspace-commons": "workspace:*",
+    "@khulnasoft/cli-source-resolver": "workspace:*",
+    "@khulnasoft/configuration-loader": "workspace:*",
+    "@khulnasoft/core-utils": "workspace:*",
+    "@khulnasoft/docs-markdown-utils": "workspace:*",
+    "@khulnasoft/docs-parsers": "0.0.65",
+    "@khulnasoft/fdr-sdk": "0.132.0-26ae3d805",
+    "@khulnasoft/lazy-rapiddocs-workspace": "workspace:*",
+    "@khulnasoft/ui-core-utils": "0.129.4-b6c699ad2",
+    "@khulnasoft/fs-utils": "workspace:*",
+    "@khulnasoft/ir-generator": "workspace:*",
+    "@khulnasoft/ir-sdk": "workspace:*",
+    "@khulnasoft/project-loader": "workspace:*",
+    "@khulnasoft/register": "workspace:*",
+    "@khulnasoft/task-context": "workspace:*",
+    "dayjs": "^1.11.11",
+    "gray-matter": "^4.0.3",
+    "lodash-es": "^4.17.21",
+    "url-join": "^5.0.0",
+    "openapi-types": "^12.1.3",
+    "@open-rpc/meta-schema": "^1.14.9"
+  },
+  "devDependencies": {
+    "@khulnasoft/configs": "workspace:*",
+    "@types/node": "18.15.3",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.56.0",
+    "prettier": "^3.4.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
+    "typescript": "5.7.2",
+    "@khulnasoft/workspace-loader": "workspace:*",
+    "@types/lodash-es": "^4.17.12",
+    "vitest": "^2.1.9"
+  }
+}

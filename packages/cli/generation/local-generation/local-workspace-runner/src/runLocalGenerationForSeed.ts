@@ -1,0 +1,299 @@
+import chalk from "chalk";
+import { readFile } from "fs/promises";
+import { writeFile } from "fs/promises";
+import * as prettier from "prettier2";
+
+import { RapiddocsWorkspace } from "@khulnasoft/api-workspace-commons";
+import {
+    RESOLVED_SNIPPET_TEMPLATES_MD,
+    SNIPPET_JSON_FILENAME,
+    SNIPPET_TEMPLATES_JSON_FILENAME,
+    generatorsYml
+} from "@khulnasoft/configuration";
+import { AbsoluteFilePath, RelativeFilePath, join } from "@khulnasoft/fs-utils";
+import { HttpEndpoint } from "@khulnasoft/ir-sdk";
+import { IntermediateRepresentation } from "@khulnasoft/ir-sdk";
+import { Rapiddocs, Template } from "@khulnasoft/sdk";
+import { TaskContext } from "@khulnasoft/task-context";
+
+import { generateDynamicSnippetTests } from "./dynamic-snippets/generateDynamicSnippetTests";
+import { writeFilesToDiskAndRunGenerator } from "./runGenerator";
+import { getWorkspaceTempDir } from "./runLocalGenerationForWorkspace";
+
+export async function runLocalGenerationForSeed({
+    organization,
+    absolutePathToRapiddocsConfig,
+    workspace,
+    generatorGroup,
+    keepDocker,
+    context,
+    irVersionOverride,
+    outputVersionOverride,
+    shouldGenerateDynamicSnippetTests
+}: {
+    organization: string;
+    workspace: RapiddocsWorkspace;
+    absolutePathToRapiddocsConfig: AbsoluteFilePath | undefined;
+    generatorGroup: generatorsYml.GeneratorGroup;
+    keepDocker: boolean;
+    context: TaskContext;
+    irVersionOverride: string;
+    outputVersionOverride: string | undefined;
+    shouldGenerateDynamicSnippetTests: boolean | undefined;
+}): Promise<void> {
+    const workspaceTempDir = await getWorkspaceTempDir();
+
+    const results = await Promise.all(
+        generatorGroup.generators.map(async (generatorInvocation) => {
+            return context.runInteractiveTask({ name: generatorInvocation.name }, async (interactiveTaskContext) => {
+                if (generatorInvocation.absolutePathToLocalOutput == null) {
+                    interactiveTaskContext.failWithoutThrowing(
+                        "Cannot generate because output location is not local-file-system"
+                    );
+                } else {
+                    const absolutePathToLocalSnippetTemplateJSON = generatorInvocation.absolutePathToLocalOutput
+                        ? AbsoluteFilePath.of(
+                              join(
+                                  generatorInvocation.absolutePathToLocalOutput,
+                                  RelativeFilePath.of(SNIPPET_TEMPLATES_JSON_FILENAME)
+                              )
+                          )
+                        : undefined;
+                    const absolutePathToResolvedSnippetTemplates = generatorInvocation.absolutePathToLocalOutput
+                        ? AbsoluteFilePath.of(
+                              join(
+                                  generatorInvocation.absolutePathToLocalOutput,
+                                  RelativeFilePath.of(RESOLVED_SNIPPET_TEMPLATES_MD)
+                              )
+                          )
+                        : undefined;
+                    const { ir, generatorConfig } = await writeFilesToDiskAndRunGenerator({
+                        organization,
+                        absolutePathToRapiddocsConfig,
+                        workspace,
+                        generatorInvocation,
+                        absolutePathToLocalOutput: generatorInvocation.absolutePathToLocalOutput,
+                        absolutePathToLocalSnippetJSON: generatorInvocation.absolutePathToLocalOutput
+                            ? AbsoluteFilePath.of(
+                                  join(
+                                      generatorInvocation.absolutePathToLocalOutput,
+                                      RelativeFilePath.of(SNIPPET_JSON_FILENAME)
+                                  )
+                              )
+                            : undefined,
+                        absolutePathToLocalSnippetTemplateJSON,
+                        audiences: generatorGroup.audiences,
+                        workspaceTempDir,
+                        keepDocker,
+                        context: interactiveTaskContext,
+                        irVersionOverride,
+                        outputVersionOverride,
+                        writeUnitTests: true,
+                        generateOauthClients: true,
+                        generatePaginatedClients: true,
+                        includeOptionalRequestPropertyExamples: true
+                    });
+                    if (
+                        absolutePathToLocalSnippetTemplateJSON != null &&
+                        absolutePathToResolvedSnippetTemplates != null
+                    ) {
+                        await writeResolvedSnippetsJson({
+                            absolutePathToLocalSnippetTemplateJSON,
+                            absolutePathToResolvedSnippetTemplates,
+                            ir,
+                            generatorInvocation
+                        });
+                    }
+                    interactiveTaskContext.logger.info(
+                        chalk.green("Wrote files to " + generatorInvocation.absolutePathToLocalOutput)
+                    );
+
+                    if (shouldGenerateDynamicSnippetTests && generatorInvocation.language != null) {
+                        interactiveTaskContext.logger.info(
+                            `Writing dynamic snippet tests to ${generatorInvocation.absolutePathToLocalOutput}`
+                        );
+                        await generateDynamicSnippetTests({
+                            context: interactiveTaskContext,
+                            ir,
+                            config: generatorConfig,
+                            language: generatorInvocation.language,
+                            outputDir: generatorInvocation.absolutePathToLocalOutput
+                        });
+                    } else {
+                        interactiveTaskContext.logger.info(
+                            `Skipping dynamic snippet tests; shouldGenerateDynamicSnippetTests: ${shouldGenerateDynamicSnippetTests}, language: ${generatorInvocation.language}`
+                        );
+                    }
+                }
+            });
+        })
+    );
+
+    if (results.some((didSucceed) => !didSucceed)) {
+        context.failAndThrow();
+    }
+}
+
+export async function writeResolvedSnippetsJson({
+    absolutePathToResolvedSnippetTemplates,
+    absolutePathToLocalSnippetTemplateJSON,
+    ir,
+    generatorInvocation
+}: {
+    absolutePathToResolvedSnippetTemplates: AbsoluteFilePath;
+    absolutePathToLocalSnippetTemplateJSON: AbsoluteFilePath;
+    ir: IntermediateRepresentation;
+    generatorInvocation: generatorsYml.GeneratorInvocation;
+}): Promise<void> {
+    const endpointSnippetTemplates: Record<string, Rapiddocs.SnippetRegistryEntry> = {};
+    if (absolutePathToLocalSnippetTemplateJSON != null) {
+        const contents = (await readFile(absolutePathToLocalSnippetTemplateJSON)).toString();
+        if (contents.length <= 0) {
+            return;
+        }
+        const parsed = JSON.parse(contents);
+        if (Array.isArray(parsed)) {
+            for (const template of parsed) {
+                const entry: Rapiddocs.SnippetRegistryEntry = template;
+                if (entry.endpointId.identifierOverride != null) {
+                    endpointSnippetTemplates[entry.endpointId.identifierOverride] = entry;
+                }
+            }
+        }
+    }
+
+    const irEndpoints: Record<string, HttpEndpoint> = Object.fromEntries(
+        Object.entries(ir.services)
+            .flatMap(([_, service]) => service.endpoints)
+            .map((endpoint) => [endpoint.id, endpoint])
+    );
+
+    const snippets: string[] = [];
+    for (const [endpointId, snippetTemplate] of Object.entries(endpointSnippetTemplates)) {
+        const template = Template.from(snippetTemplate);
+        const irEndpoint = irEndpoints[endpointId];
+        if (irEndpoint == null) {
+            continue;
+        }
+        for (const example of [...irEndpoint.userSpecifiedExamples, ...irEndpoint.autogeneratedExamples]) {
+            try {
+                const snippet = template.resolve({
+                    headers: [
+                        ...(example.example?.serviceHeaders ?? []),
+                        ...(example.example?.endpointHeaders ?? [])
+                    ].map((header) => {
+                        return {
+                            name: header.name.wireValue,
+                            value: header.value.jsonExample
+                        };
+                    }),
+                    pathParameters: [
+                        ...(example.example?.rootPathParameters ?? []),
+                        ...(example.example?.servicePathParameters ?? []),
+                        ...(example.example?.endpointPathParameters ?? [])
+                    ].map((parameter) => {
+                        return {
+                            name: parameter.name.originalName,
+                            value: parameter.value.jsonExample
+                        };
+                    }),
+                    queryParameters: [...(example.example?.queryParameters ?? [])].map((parameter) => {
+                        return {
+                            name: parameter.name.wireValue,
+                            value: parameter.value.jsonExample
+                        };
+                    }),
+                    requestBody: example.example?.request?.jsonExample
+                });
+                switch (snippet.type) {
+                    case "typescript":
+                        try {
+                            snippets.push(prettier.format(snippet.client, { parser: "babel" }));
+                        } catch {
+                            snippets.push(snippet.client);
+                        }
+                        break;
+                    case "python":
+                        snippets.push(snippet.sync_client);
+                        break;
+                }
+            } catch (err) {}
+        }
+    }
+    let resolvedMd = "";
+    for (const snippet of snippets) {
+        resolvedMd += `\`\`\`${generatorInvocation.language}
+${snippet}
+\`\`\`
+\n\n`;
+    }
+    if (resolvedMd.length > 0) {
+        await writeFile(absolutePathToResolvedSnippetTemplates, resolvedMd);
+    }
+}
+
+export async function writeIrAndConfigJson({
+    organization,
+    absolutePathToRapiddocsConfig,
+    workspace,
+    generatorGroup,
+    keepDocker,
+    context,
+    irVersionOverride,
+    outputVersionOverride
+}: {
+    organization: string;
+    workspace: RapiddocsWorkspace;
+    absolutePathToRapiddocsConfig: AbsoluteFilePath | undefined;
+    generatorGroup: generatorsYml.GeneratorGroup;
+    keepDocker: boolean;
+    context: TaskContext;
+    irVersionOverride: string | undefined;
+    outputVersionOverride: string | undefined;
+}): Promise<void> {
+    const workspaceTempDir = await getWorkspaceTempDir();
+
+    await Promise.all(
+        generatorGroup.generators.map(async (generatorInvocation) => {
+            return context.runInteractiveTask({ name: generatorInvocation.name }, async (interactiveTaskContext) => {
+                if (generatorInvocation.absolutePathToLocalOutput == null) {
+                    interactiveTaskContext.failWithoutThrowing(
+                        "Cannot generate because output location is not local-file-system"
+                    );
+                } else {
+                    await writeFilesToDiskAndRunGenerator({
+                        organization,
+                        absolutePathToRapiddocsConfig,
+                        workspace,
+                        generatorInvocation,
+                        absolutePathToLocalOutput: generatorInvocation.absolutePathToLocalOutput,
+                        absolutePathToLocalSnippetJSON: AbsoluteFilePath.of(
+                            join(
+                                generatorInvocation.absolutePathToLocalOutput,
+                                RelativeFilePath.of(SNIPPET_JSON_FILENAME)
+                            )
+                        ),
+                        absolutePathToLocalSnippetTemplateJSON: AbsoluteFilePath.of(
+                            join(
+                                generatorInvocation.absolutePathToLocalOutput,
+                                RelativeFilePath.of(SNIPPET_TEMPLATES_JSON_FILENAME)
+                            )
+                        ),
+                        audiences: generatorGroup.audiences,
+                        workspaceTempDir,
+                        keepDocker,
+                        context: interactiveTaskContext,
+                        irVersionOverride,
+                        outputVersionOverride,
+                        writeUnitTests: true,
+                        generateOauthClients: true,
+                        generatePaginatedClients: true
+                    });
+                    interactiveTaskContext.logger.info(
+                        chalk.green("Wrote files to " + generatorInvocation.absolutePathToLocalOutput)
+                    );
+                }
+            });
+        })
+    );
+}

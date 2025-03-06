@@ -1,0 +1,14 @@
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    TelemetryData:
+      x-rapiddocs-sdk-group-name: ["infra", "telemetry"]
+
+paths:
+  /telemetry:
+    get:
+      x-rapiddocs-sdk-group-name: telemetry
+      x-rapiddocs-sdk-method-name: getTelemetryData

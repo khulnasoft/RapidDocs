@@ -1,0 +1,13 @@
+{
+    "ignores": [
+        "@types/jest",
+        "globals",
+        "@trivago/prettier-plugin-sort-imports",
+        "@types/node",
+        "form-data",
+        "jest-environment-jsdom"
+    ],
+    "ignore-patterns": [
+        "lib"
+    ]
+}

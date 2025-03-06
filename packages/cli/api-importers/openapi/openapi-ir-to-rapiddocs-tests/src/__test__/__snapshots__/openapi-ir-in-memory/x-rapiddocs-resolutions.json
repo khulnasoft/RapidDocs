@@ -1,0 +1,80 @@
+{
+  "type": "openapi",
+  "value": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Test extension `x-rapiddocs-sdk-group-name` for schemas",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/user": {
+        "get": {
+          "x-rapiddocs-sdk-group-name": [
+            "user"
+          ],
+          "x-rapiddocs-sdk-method-name": [
+            "get"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "x-rapiddocs-sdk-group-name": [
+            "user"
+          ],
+          "x-rapiddocs-sdk-method-name": [
+            "get_all"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-rapiddocs-resolutions": [
+      {
+        "name": "User",
+        "resolutions": [
+          "#/paths/~1user/get/responses/200/content/application~1json/schema",
+          "#/paths/~1users/get/responses/200/content/application~1json/schema/items"
+        ]
+      }
+    ]
+  }
+}

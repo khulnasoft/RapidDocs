@@ -1,0 +1,48 @@
+name: test-docs-generation
+
+on:
+  push:
+    paths:
+      - "rapiddocs/packages/cli/**"
+      - "rapiddocs/packages/core/**"
+      - "rapiddocs/packages/commons/**"
+      - ".github/workflows/publish-docs.yml"
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/heads/main')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: ./.github/actions/install
+
+      - name: Clone the Cohere Developer Experience repo
+        run: |
+          git clone https://github.com/cohere-ai/cohere-developer-experience.git
+          echo "Cohere Developer Experience repo cloned successfully!"
+
+      - name: Publish Docs
+        env:
+          RAPIDDOCS_TOKEN: ${{ secrets.RAPIDDOCS_TOKEN }}
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
+        run: |
+          pnpm --filter @khulnasoft/cli dist:cli:prod
+          cli_path="$(pwd)/packages/cli/cli/dist/prod/cli.cjs" 
+          cd cohere-developer-experience
+          sed -i 's/"organization": "[^"]*"/"organization": "rapiddocs"/' rapiddocs/rapiddocs.config.json
+          sed -i 's/"version": "[^"]*"/"version": "*"/' rapiddocs/rapiddocs.config.json
+          sed -i 's/^url:.*$/url: test-rapiddocs-cohere.docs.buildwithrapiddocs.com/' rapiddocs/docs.yml
+          sed -i '/^customDomain:/d' rapiddocs/docs.yml
+          pnpm install
+          pnpm compile
+          node $cli_path generate --docs --preview --log-level debug 

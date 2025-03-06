@@ -1,0 +1,25 @@
+irVersion: v39
+displayName: Ruby Model
+image: rapiddocsapi/rapiddocs-ruby-model
+changelogLocation: ../../generators/ruby/model/versions.yml
+
+publish:
+  preBuildCommands:
+    - pnpm --filter @khulnasoft/rapiddocs-ruby-model dist:cli
+  docker:
+    file: ./generators/ruby/model/Dockerfile
+    image: rapiddocsapi/rapiddocs-ruby-model
+    context: .
+test:
+  docker:
+    image: rapiddocsapi/rapiddocs-ruby-model:latest
+    command: pnpm --filter @khulnasoft/rapiddocs-ruby-model dockerTagLatest
+language: ruby
+generatorType: Model
+defaultOutputMode: local_files
+fixtures: []
+scripts: []
+allowedFailures:
+  # TODO: Add support for recursive undiscriminated unions.
+  - grpc
+  - circular-references

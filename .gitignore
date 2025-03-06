@@ -1,0 +1,69 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+
+# turbo
+.turbo
+
+# production
+packages/**/build
+packages/**/lib
+packages/**/dist
+packages/**/tsconfig*tsbuildinfo
+packages/**/out
+
+# generators
+generators/**/build
+generators/**/lib
+generators/**/dist
+generators/**/tsconfig*tsbuildinfo
+seed/**/tsconfig*tsbuildinfo
+generators/**/out
+seed/**/gradlew
+seed/**/gradlew.bat
+seed/**/gradle
+generators/csharp/playground/**/obj/
+
+# don't ignore the ruby lib within the playground
+!generators/ruby/playground/lib
+
+# next
+.next
+next-env.d.ts
+.vercel
+
+# misc
+.DS_Store
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# yarn v2
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# rapiddocs
+packages/**/generated
+
+# environments
+.env*.local
+.vercel
+
+**/.idea/*
+**.code-workspace
+
+.python-version
+
+# This file is too large to be included in the repository without LFS
+seed/python-sdk/trace/snippet-templates.json
+seed/python-sdk/**/output.prof
+.php-cs-fixer.cache

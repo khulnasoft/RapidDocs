@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/user",
+                "method": "GET",
+                "identifier_override": "endpoint_user.getUsername"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/query-parameters/rapiddocs\"\n\trapiddocsclient \"github.com/query-parameters/rapiddocs/client\"\n\tuuid \"github.com/google/uuid\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.User.GetUsername(\n\tcontext.TODO(),\n\t\u0026rapiddocs.GetUsersRequest{\n\t\tLimit: 1,\n\t\tId: uuid.MustParse(\n\t\t\t\"d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32\",\n\t\t),\n\t\tDate: rapiddocs.MustParseDate(\n\t\t\t\"2023-01-15\",\n\t\t),\n\t\tDeadline: rapiddocs.MustParseDateTime(\n\t\t\t\"2024-01-15T09:30:00Z\",\n\t\t),\n\t\tBytes: []byte(\"Hello world!\"),\n\t\tUser: \u0026rapiddocs.User{\n\t\t\tName: \"name\",\n\t\t\tTags: []string{\n\t\t\t\t\"tags\",\n\t\t\t\t\"tags\",\n\t\t\t},\n\t\t},\n\t\tUserList: []*rapiddocs.User{\n\t\t\t\u0026rapiddocs.User{\n\t\t\t\tName: \"name\",\n\t\t\t\tTags: []string{\n\t\t\t\t\t\"tags\",\n\t\t\t\t\t\"tags\",\n\t\t\t\t},\n\t\t\t},\n\t\t\t\u0026rapiddocs.User{\n\t\t\t\tName: \"name\",\n\t\t\t\tTags: []string{\n\t\t\t\t\t\"tags\",\n\t\t\t\t\t\"tags\",\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t\tOptionalDeadline: rapiddocs.Time(\n\t\t\trapiddocs.MustParseDateTime(\n\t\t\t\t\"2024-01-15T09:30:00Z\",\n\t\t\t),\n\t\t),\n\t\tKeyValue: map[string]string{\n\t\t\t\"keyValue\": \"keyValue\",\n\t\t},\n\t\tOptionalString: rapiddocs.String(\n\t\t\t\"optionalString\",\n\t\t),\n\t\tNestedUser: \u0026rapiddocs.NestedUser{\n\t\t\tName: \"name\",\n\t\t\tUser: \u0026rapiddocs.User{\n\t\t\t\tName: \"name\",\n\t\t\t\tTags: []string{\n\t\t\t\t\t\"tags\",\n\t\t\t\t\t\"tags\",\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t\tOptionalUser: \u0026rapiddocs.User{\n\t\t\tName: \"name\",\n\t\t\tTags: []string{\n\t\t\t\t\"tags\",\n\t\t\t\t\"tags\",\n\t\t\t},\n\t\t},\n\t\tExcludeUser: []*rapiddocs.User{\n\t\t\t\u0026rapiddocs.User{\n\t\t\t\tName: \"name\",\n\t\t\t\tTags: []string{\n\t\t\t\t\t\"tags\",\n\t\t\t\t\t\"tags\",\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t\tFilter: []string{\n\t\t\t\"filter\",\n\t\t},\n\t},\n)\n"
+            }
+        }
+    ]
+}

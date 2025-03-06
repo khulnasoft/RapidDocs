@@ -1,0 +1,23 @@
+---
+title: Export from Rapiddocs Definition to OpenAPI
+description: Export your Rapiddocs Definition files to OpenAPI using Rapiddocs's OpenAPI generator.
+---
+
+To prevent lock-in to the Rapiddocs Definition format, we provide a generator that will export your Rapiddocs Def files to OpenAPI 3.1. 
+This lets you switch to using OpenAPI at any time, or use your API definition with OpenAPI tools.
+To convert your Rapiddocs Definition to OpenAPI, use the `rapiddocs-openapi` generator. 
+
+Update your `generators.yml` file:
+
+<CodeBlock title="generators.yml">
+```yaml
+- name: rapiddocsapi/rapiddocs-openapi
+  version: 0.0.31
+  config:
+    format: yaml # options are yaml or json
+  output:
+    location: local-file-system
+    path: ../openapi # relative path to output location
+```
+</CodeBlock>
+

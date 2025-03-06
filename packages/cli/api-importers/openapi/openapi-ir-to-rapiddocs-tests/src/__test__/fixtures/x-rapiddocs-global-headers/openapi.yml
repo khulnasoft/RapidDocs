@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: Test extension `x-rapiddocs-audiences` alongside `x-rapiddocs-streaming`.
+  version: 1.0.0
+x-rapiddocs-version:
+  header: my-api-version
+  default: '1.0'
+  values:
+    - '1.0'
+    - 'latest'
+x-rapiddocs-global-headers:
+  - header: my-api-key
+    name: api-key-alias
+    optional: true
+  - header: another_header
+    optional: false
+    env: MY_HEADER_ENV
+  - header: version
+    name: Square-Version
+    env: SQUARE_VERSION
+    type: literal<"2024-06-04">
+paths:
+  "/user/{userId}":
+    post:
+      x-rapiddocs-sdk-group-name: user
+      x-rapiddocs-sdk-method-name: get
+      x-rapiddocs-streaming:
+        stream-condition: $request.stream
+        response:
+          $ref: "#/components/schemas/User"
+        response-stream:
+          $ref: "#/components/schemas/StreamUser"
+      operationId: get
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: my-api-key
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: another_header
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: x-api-key
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: my-api-version
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stream:
+                  type: boolean
+                  x-rapiddocs-audiences: [ "public" ]
+      responses:
+        "200":
+          description: "Success!"
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        streamed:
+          x-rapiddocs-type: literal<false>
+          type: boolean
+    StreamUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        streamed:
+          x-rapiddocs-type: literal<true>
+          type: boolean

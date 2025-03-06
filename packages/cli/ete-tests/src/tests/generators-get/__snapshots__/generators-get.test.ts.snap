@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rapiddocs generator get > rapiddocs generator get --language 1`] = `"typescript"`;
+
+exports[`rapiddocs generator get > rapiddocs generator get --version 1`] = `"0.39.3"`;
+
+exports[`rapiddocs generator get > rapiddocs generator get to file 1`] = `
+"{
+  "version": "0.39.3",
+  "language": "typescript"
+}"
+`;

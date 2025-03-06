@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/dummy",
+                "method": "GET",
+                "identifier_override": "endpoint_dummy.getDummy"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/no-environment/rapiddocs/client\"\n\toption \"github.com/no-environment/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Dummy.GetDummy(\n\tcontext.TODO(),\n)\n"
+            }
+        }
+    ]
+}

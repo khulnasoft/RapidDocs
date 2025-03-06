@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`rapiddocs generator list > rapiddocs generator list 1`] = `
+"FERN_DEFAULT:
+  local:
+    - rapiddocsapi/rapiddocs-typescript-node-sdk"
+`;
+
+exports[`rapiddocs generator list > rapiddocs generator list with exclude 1`] = `
+"FERN_DEFAULT:
+  local: []"
+`;
+
+exports[`rapiddocs generator list > rapiddocs generator list with include 1`] = `
+"FERN_DEFAULT:
+  local:
+    - rapiddocsapi/rapiddocs-typescript-node-sdk"
+`;

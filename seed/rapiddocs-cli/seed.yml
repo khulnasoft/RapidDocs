@@ -1,0 +1,26 @@
+changelogLocation: ../../packages/cli/cli/versions.yml
+publishGa:
+  workingDirectory: packages/cli/cli
+  versionSubstitution: $VERSION
+  command:
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+    - pnpm install
+    - pnpm --filter @khulnasoft/cli compile
+    - pnpm --filter @khulnasoft/cli dist:cli:prod $VERSION
+    - pnpm --filter @khulnasoft/cli publish:cli:prod --tag latest
+publishRc:
+  workingDirectory: packages/cli/cli
+  versionSubstitution: $VERSION
+  command:
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+    - pnpm install
+    - pnpm --filter @khulnasoft/cli compile
+    - pnpm --filter @khulnasoft/cli dist:cli:prod $VERSION
+    - pnpm --filter @khulnasoft/cli publish:cli:prod --tag prerelease
+publishDev:
+  workingDirectory: packages/cli/cli
+  versionSubstitution: $VERSION
+  command:
+    - pnpm --filter @khulnasoft/cli compile
+    - pnpm --filter @khulnasoft/cli dist:cli:dev $VERSION
+    - pnpm --filter @khulnasoft/cli publish:cli:dev --access restricted

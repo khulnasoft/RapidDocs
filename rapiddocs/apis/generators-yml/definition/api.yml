@@ -1,0 +1,3 @@
+name: rapiddocs-definition
+error-discrimination:
+  strategy: status-code

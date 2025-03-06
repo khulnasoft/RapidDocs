@@ -1,0 +1,9 @@
+instances:
+  - url: https://rapiddocs-platform-test.docs.dev.buildwithrapiddocs.com
+  - url: https://rapiddocs-platform-test.docs.buildwithrapiddocs.com
+title: SmokeTest | Documentation
+navigation:
+  - api: API Reference
+colors:
+  accentPrimary: '#ffffff'
+  background: '#000000'

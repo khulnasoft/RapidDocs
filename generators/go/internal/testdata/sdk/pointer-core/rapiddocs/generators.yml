@@ -1,0 +1,11 @@
+default-group: local
+groups:
+  local:
+    generators:
+      - name: rapiddocsapi/rapiddocs-go-sdk
+        version: 0.10.25-rc0
+        config:
+          importPath: github.com/khulnasoft/rapiddocs-go/internal/testdata/sdk/pointer-core/fixtures
+        output:
+          location: local-file-system
+          path: ../../fixtures

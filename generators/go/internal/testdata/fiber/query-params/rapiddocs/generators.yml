@@ -1,0 +1,11 @@
+default-group: local
+groups:
+  local:
+    generators:
+      - name: rapiddocsapi/rapiddocs-go-fiber
+        version: 0.10.25-rc0
+        config:
+          importPath: github.com/khulnasoft/rapiddocs-go/internal/testdata/fiber/query-params/fixtures
+        output:
+          location: local-file-system
+          path: ../../fixtures

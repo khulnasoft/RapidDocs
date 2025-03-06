@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/{id}",
+                "method": "POST",
+                "identifier_override": "endpoint_.echo"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/package-yml/rapiddocs\"\n)\n\nclient := rapiddocs.NewClient()\nresponse, err := client.Echo(\n\tcontext.TODO(),\n\t\"id-ksfd9c1\",\n\t\u0026rapiddocs.EchoRequest{\n\t\tName: \"Hello world!\",\n\t\tSize: 20,\n\t},\n)\n"
+            }
+        }
+    ]
+}

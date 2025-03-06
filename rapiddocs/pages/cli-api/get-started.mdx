@@ -1,0 +1,114 @@
+---
+title: 'Overview'
+subtitle: Manage and configure your Rapiddocs projects, all from the command line.
+description: 'Overview of the Rapiddocs CLI including usage, installation, and CI/CD environments'
+---
+
+## Prerequisites
+
+Before getting started with Rapiddocs CLI, ensure you have [Node.js](https://nodejs.org/) version 18 or higher installed.
+
+You can verify your Node.js version by running:
+<CodeBlock title="Check Node Version">
+```bash
+node --version
+```
+</CodeBlock>
+
+## Installing Rapiddocs CLI
+
+<CodeBlock title="Install Rapiddocs CLI">
+```bash
+npm install -g khulnasoft
+```
+</CodeBlock>
+
+<CodeBlock title="Verify Installation">
+```bash
+rapiddocs -v
+```
+</CodeBlock>
+
+## Common Workflows
+
+<AccordionGroup>
+  <Accordion title="Setting up Docs">
+    1. Initialize a new docs project:
+    ```bash
+    rapiddocs init --docs
+    ```
+    
+    2. Validate your API specification and documentation:
+    ```bash
+    rapiddocs check
+    ```
+    
+    3. Preview locally while making changes:
+    ```bash
+    rapiddocs docs dev
+    ```
+    
+    4. When ready to preview or publish:
+    ```bash
+    rapiddocs generate --docs --preview  # Generate a shareable preview link
+    rapiddocs generate --docs            # Publish to production
+    ```
+  </Accordion>
+
+  <Accordion title="Setting up SDK generation">
+    1. Initialize a new SDK project:
+    ```bash
+    rapiddocs init
+    ```
+    
+    2. Configure your generators in [`generators.yml`](/learn/api-definition/introduction/what-is-the-rapiddocs-folder#generatorsyml)
+    
+    3. Validate your API specification:
+    ```bash
+    rapiddocs check
+    ```
+    
+    4. Preview SDKs locally:
+    ```bash
+    rapiddocs generate --preview                     # Preview the default SDK group
+    rapiddocs generate --group python-sdk --preview  # Preview a specific SDK group
+    ```
+    
+    The preview SDKs will be generated into the `.preview/` folder.
+    
+    <Note>
+      The "default SDK group" refers to the group marked as default in your `generators.yml`. Learn more about [default groups](/learn/generate-sdks/configuration#default-group).
+    </Note>
+    
+    5. Generate SDKs:
+    ```bash
+    rapiddocs generate --group python-sdk  # Generate a specific SDK group
+    rapiddocs generate                     # Generate the default SDK group
+    ```
+  </Accordion>
+
+  <Accordion title="Setting up from OpenAPI">
+    1. Initialize a project from your OpenAPI spec:
+    ```bash
+    # From a local file
+    rapiddocs init --openapi ./path/to/openapi.yml
+
+    # From a URL
+    rapiddocs init --openapi https://link.buildwithrapiddocs.com/petstore-openapi
+    ```
+    
+    2. Validate your API specification:
+    ```bash
+    rapiddocs check
+    ```
+    
+    3. Review the generated Rapiddocs Definition files in the `rapiddocs/` directory
+    
+    4. Generate SDKs as normal:
+    ```bash
+    rapiddocs generate --preview  # Preview changes locally
+    rapiddocs generate            # Publish to production
+    ```
+  </Accordion>
+
+</AccordionGroup>

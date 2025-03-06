@@ -1,0 +1,147 @@
+---
+title: Generate your first SDK
+description: Use Rapiddocs's CLI tool to generate your first SDK.
+---
+
+<Warning title='Schedule a Demo'>
+  Generating SDKs often requires understanding the state of your OpenAPI Specification as well as 
+  your specific requirements. For the ideal experience, we **strongly recommend** scheduling a 
+  [demo](https://buildwithrapiddocs.com/contact) or [emailing us](mailto:support@buildwithrapiddocs.com) to get started. 
+</Warning>
+
+If you'd rather get started immediately, you can use Rapiddocs's CLI tool 
+to generate your first SDK.
+
+<Steps>
+  ### Install the Rapiddocs CLI
+
+  First, install the CLI tool by running the following command:
+
+  ```bash
+  npm install -g khulnasoft
+  ```
+
+  ### Initialize the Rapiddocs Folder
+
+  <AccordionGroup>
+    <Accordion title="OpenAPI">
+      If you have an OpenAPI Specification, you can initialize the Rapiddocs folder by running the following command:
+
+      ```bash
+      rapiddocs init --openapi path/to/openapi.yml
+      ```
+      
+      If your OpenAPI Specification is hosted on the web, you can use the URL:
+
+      ```bash
+      rapiddocs init --openapi https://api.example.com/openapi.yml
+      ```
+
+      This will create a `rapiddocs` folder in your current directory with the OpenAPI Specification.
+
+      ```bash
+      rapiddocs/
+        ├─ rapiddocs.config.json # root-level configuration
+        └─ api/ # your API
+          ├─ generators.yml # generators you're using
+          └─ openapi/
+            ├─ openapi.yml  # API-level configuration
+      ```
+    </Accordion>
+    <Accordion title="Rapiddocs Definition">
+      If you'd like to use the Rapiddocs Definition, you can initialize the Rapiddocs folder 
+      by running the following command:
+
+      ```bash
+      rapiddocs init
+      ```
+
+      This will create a `rapiddocs` folder in your current directory with the Rapiddocs Definition.
+
+      ```bash
+      rapiddocs/
+        ├─ rapiddocs.config.json # root-level configuration
+        ├─ generators.yml # generators you're using
+        └─ definition/
+          ├─ api.yml  # API-level configuration
+          └─ imdb.yml # endpoints, types, and errors
+      ```
+    </Accordion>
+  </AccordionGroup>
+
+  ### Pass `rapiddocs check`
+
+  Run `rapiddocs check` to ensure that your API Definition is valid. If there are any errors,
+  you will need to fix them before proceeding.
+
+  <Note>
+    If you're using an OpenAPI Specification, check out all of our 
+    [supported extensions](/learn/api-definition/openapi/extensions).
+  </Note>
+
+  ### Add the SDK generator
+
+  <Warning title='Pro Features'>
+    By default, none of the pro features will be enabled. 
+  </Warning>
+
+  You can now use the SDK in your application. Here's an example of how 
+  you can use the SDK:
+
+  <CodeBlocks>
+    <CodeBlock title="TypeScript">
+      ```sh
+      rapiddocs add rapiddocs-typescript-node-sdk --group sdk
+      ```
+    </CodeBlock>
+    <CodeBlock title="Python">
+      ```sh
+      rapiddocs add rapiddocs-python-sdk --group sdk
+      ```
+    </CodeBlock>
+    <CodeBlock title="Java">
+      ```sh
+      rapiddocs add rapiddocs-java-sdk --group sdk
+      ```
+    </CodeBlock>
+    <CodeBlock title="Go">
+      ```sh
+      rapiddocs add rapiddocs-go-sdk --group sdk
+      ```
+    </CodeBlock>
+    <CodeBlock title="Ruby">
+      ```sh
+      rapiddocs add rapiddocs-ruby-sdk --group sdk
+      ```
+    </CodeBlock>
+    <CodeBlock title="C#">
+      ```sh
+      rapiddocs add rapiddocs-csharp-sdk --group sdk
+      ```
+    </CodeBlock>
+  </CodeBlocks>
+
+  ### Run `rapiddocs generate --group sdk`
+
+  Next up, run the following command to generate the SDK:
+
+  ```bash
+  rapiddocs generate --group sdk
+  ```
+
+  This will create a `rapiddocs` folder in your current directory with the Rapiddocs 
+  Definition. For example, if you're generating a TypeScript SDK, the folder structure
+  will look like this:
+
+  ```bash
+  sdks/
+    typescript/
+      src/
+        ├─ index.ts
+        ├─ Client.ts
+        └─ api
+        └─ errors   
+        └─ serialization   
+  ```
+  
+</Steps>

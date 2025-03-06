@@ -1,0 +1,81 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/{tenant_id}/organizations/{organization_id}",
+                "method": "GET",
+                "identifier_override": "endpoint_organizations.getOrganization"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Organizations.GetOrganization(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\"organization_id\",\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/{tenant_id}/organizations/{organization_id}/search",
+                "method": "GET",
+                "identifier_override": "endpoint_organizations.searchOrganizations"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/path-parameters/rapiddocs\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Organizations.SearchOrganizations(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\"organization_id\",\n\t\u0026rapiddocs.SearchOrganizationsRequest{\n\t\tLimit: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/{tenant_id}/organizations/{organization_id}/users/{user_id}",
+                "method": "GET",
+                "identifier_override": "endpoint_organizations.getOrganizationUser"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Organizations.GetOrganizationUser(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\"organization_id\",\n\t\"user_id\",\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/{tenant_id}/user",
+                "method": "POST",
+                "identifier_override": "endpoint_user.createUser"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/path-parameters/rapiddocs\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.User.CreateUser(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\u0026rapiddocs.User{\n\t\tName: \"name\",\n\t\tTags: []string{\n\t\t\t\"tags\",\n\t\t\t\"tags\",\n\t\t},\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/{tenant_id}/user/{user_id}",
+                "method": "GET",
+                "identifier_override": "endpoint_user.getUser"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.User.GetUser(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\"user_id\",\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/{tenant_id}/user/{user_id}",
+                "method": "PATCH",
+                "identifier_override": "endpoint_user.updateUser"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/path-parameters/rapiddocs\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.User.UpdateUser(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\"user_id\",\n\t\u0026rapiddocs.UpdateUserRequest{\n\t\tBody: \u0026rapiddocs.User{\n\t\t\tName: \"name\",\n\t\t\tTags: []string{\n\t\t\t\t\"tags\",\n\t\t\t\t\"tags\",\n\t\t\t},\n\t\t},\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/{tenant_id}/user/{user_id}/search",
+                "method": "GET",
+                "identifier_override": "endpoint_user.searchUsers"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/path-parameters/rapiddocs\"\n\trapiddocsclient \"github.com/path-parameters/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.User.SearchUsers(\n\tcontext.TODO(),\n\t\"tenant_id\",\n\t\"user_id\",\n\t\u0026rapiddocs.SearchUsersRequest{\n\t\tLimit: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t},\n)\n"
+            }
+        }
+    ]
+}

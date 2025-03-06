@@ -1,0 +1,26 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/big-entity",
+                "method": "POST",
+                "identifier_override": "endpoint_service.createBigEntity"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/examples-minimal/rapiddocs\"\n\trapiddocsclient \"github.com/examples-minimal/rapiddocs/client\"\n\toption \"github.com/examples-minimal/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n\toption.WithBaseURL(\n\t\trapiddocs.Environments.Production,\n\t),\n)\nresponse, err := client.Service.CreateBigEntity(\n\tcontext.TODO(),\n\trapiddocs.NewTestFromAnd(\n\t\ttrue,\n\t),\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/movie",
+                "method": "POST",
+                "identifier_override": "endpoint_service.getMovie"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/examples-minimal/rapiddocs\"\n\trapiddocsclient \"github.com/examples-minimal/rapiddocs/client\"\n\toption \"github.com/examples-minimal/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n\toption.WithBaseURL(\n\t\trapiddocs.Environments.Production,\n\t),\n)\nresponse, err := client.Service.GetMovie(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ExtendedMovie{\n\t\tFoo: \"foo\",\n\t\tBar: 1,\n\t\tCast: []string{\n\t\t\t\"cast\",\n\t\t\t\"cast\",\n\t\t},\n\t},\n)\n"
+            }
+        }
+    ]
+}

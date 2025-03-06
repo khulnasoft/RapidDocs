@@ -1,0 +1,54 @@
+irVersion: v53
+displayName: Fiber
+image: rapiddocsapi/rapiddocs-go-fiber
+changelogLocation: ../../generators/go/fiber/versions.yml
+
+buildScripts:
+  compileScript:
+    commands:
+      - go build -v ./...
+  testScript:
+    commands:
+      - go test -v ./...
+
+publish:
+  workingDirectory: generators/go
+  preBuildCommands:
+    - go build ./...
+  docker:
+    file: ./generators/go/fiber/Dockerfile
+    image: rapiddocsapi/rapiddocs-go-fiber
+    context: ./generators/go
+test:
+  docker:
+    image: rapiddocsapi/rapiddocs-go-fiber:latest
+    command: docker build -f ./generators/go/fiber/Dockerfile -t rapiddocsapi/rapiddocs-go-fiber:latest ./generators/go
+language: go
+generatorType: Model
+defaultOutputMode: github
+fixtures:
+  streaming:
+    - outputFolder: .
+      outputVersion: v2.0.0
+      customConfig:
+        packageName: stream
+        module:
+          path: github.com/khulnasoft/stream-go
+  idempotency-headers:
+    - outputFolder: .
+      outputVersion: 0.0.1
+      customConfig:
+        packageName: rapiddocs
+        module:
+          path: github.com/idempotency-headers/rapiddocs
+        includeLegacyClientOptions: true
+scripts:
+  - docker: golang:1.18-alpine
+    commands:
+      - CGO_ENABLED=0 go test ./...
+allowedFailures:
+  - alias-extends
+  - exhaustive
+  - mixed-case
+  - reserved-keywords
+  - trace

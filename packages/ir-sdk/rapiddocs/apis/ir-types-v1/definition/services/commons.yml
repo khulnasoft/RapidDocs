@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/khulnasoft/rapiddocs/main/rapiddocs.schema.json
+
+imports:
+  commons: ../commons.yml
+  errors: ../errors.yml
+types:
+  DeclaredServiceName:
+    properties:
+      rapiddocsFilepath:
+        docs: this is deprecated. use rapiddocsFilepathV2
+        type: commons.RapiddocsFilepath
+      rapiddocsFilepathV2: commons.RapiddocsFilepathV2
+      name: string
+
+  ResponseErrors: list<ResponseError>
+  ResponseError:
+    extends: commons.WithDocs
+    properties:
+      error: errors.DeclaredErrorName
+
+  ResponseErrorsV2:
+    docs: this is deprecated. use ResponseErrors. Yes, this is weird.
+    properties:
+      discriminant: commons.WireStringWithAllCasings
+      types: list<ResponseErrorV2>
+  ResponseErrorV2:
+    extends: commons.WithDocs
+    properties:
+      discriminantValue:
+        type: commons.WireStringWithAllCasings
+        docs: this is deprecated. use the discriminant value on the error declaration.
+      shape:
+        type: ResponseErrorShape
+        docs: this is deprecated. if the error has a type, then use the errorBody
+          constant.
+  ResponseErrorShape:
+    union:
+      singleProperty: SingleResponseErrorProperty
+      noProperties: {}
+
+  SingleResponseErrorProperty:
+    properties:
+      name: commons.WireStringWithAllCasings
+      error: errors.DeclaredErrorName

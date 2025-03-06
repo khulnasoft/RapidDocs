@@ -1,0 +1,24 @@
+## 0.39.11
+**`(fix):`** The Rapiddocs CLI now handles parsing `x-rapiddocs-parameter-name` on path parameters in an OpenAPI spec.
+
+### What's been fixed
+- Fix: The Rapiddocs CLI now handles parsing `x-rapiddocs-parameter-name` on path parameters in an OpenAPI spec. For example,
+if you want to rename a path parameter in the generated SDK, you can now do:
+
+```yml
+paths:
+  "/user":
+      get:
+      operationId: list_user
+      parameters:
+          - in: header
+          name: X-API-Version
+          x-rapiddocs-parameter-name: version
+          schema:
+              type: string
+          required: true
+```
+
+For more information, please check out the [docs](https://buildwithrapiddocs.com/learn/api-definition/openapi/extensions/parameter-names).
+
+

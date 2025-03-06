@@ -1,0 +1,158 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/conversations/search",
+                "method": "POST",
+                "identifier_override": "endpoint_complex.search"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Complex.Search(\n\tcontext.TODO(),\n\t\u0026rapiddocs.SearchRequest{\n\t\tPagination: \u0026rapiddocs.StartingAfterPaging{\n\t\t\tPerPage: 1,\n\t\t\tStartingAfter: rapiddocs.String(\n\t\t\t\t\"starting_after\",\n\t\t\t),\n\t\t},\n\t\tQuery: rapiddocs.NewSearchRequestQueryFromSingleFilterSearchRequest(\n\t\t\t\u0026rapiddocs.SingleFilterSearchRequest{\n\t\t\t\tField: rapiddocs.String(\n\t\t\t\t\t\"field\",\n\t\t\t\t),\n\t\t\t\tOperator: rapiddocs.SingleFilterSearchRequestOperatorEquals,\n\t\t\t\tValue: rapiddocs.String(\n\t\t\t\t\t\"value\",\n\t\t\t\t),\n\t\t\t},\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithExtendedResults"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n\tuuid \"github.com/google/uuid\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithExtendedResults(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersExtendedRequest{\n\t\tCursor: rapiddocs.UUID(\n\t\t\tuuid.MustParse(\n\t\t\t\t\"d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32\",\n\t\t\t),\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithExtendedResultsAndOptionalData"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n\tuuid \"github.com/google/uuid\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithExtendedResultsAndOptionalData(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersExtendedRequestForOptionalData{\n\t\tCursor: rapiddocs.UUID(\n\t\t\tuuid.MustParse(\n\t\t\t\t\"d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32\",\n\t\t\t),\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listUsernames"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListUsernames(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsernamesRequest{\n\t\tStartingAfter: rapiddocs.String(\n\t\t\t\"starting_after\",\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listUsernamesCustom"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListUsernamesCustom(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsernamesRequestCustom{\n\t\tStartingAfter: rapiddocs.String(\n\t\t\t\"starting_after\",\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithCursorPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithCursorPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersCursorPaginationRequest{\n\t\tPage: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tPerPage: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tOrder: rapiddocs.OrderAsc,\n\t\tStartingAfter: rapiddocs.String(\n\t\t\t\"starting_after\",\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithDoubleOffsetPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithDoubleOffsetPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersDoubleOffsetPaginationRequest{\n\t\tPage: rapiddocs.Float64(\n\t\t\t1.1,\n\t\t),\n\t\tPerPage: rapiddocs.Float64(\n\t\t\t1.1,\n\t\t),\n\t\tOrder: rapiddocs.OrderAsc,\n\t\tStartingAfter: rapiddocs.String(\n\t\t\t\"starting_after\",\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithGlobalConfig"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithGlobalConfig(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListWithGlobalConfigRequest{\n\t\tOffset: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithOffsetPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithOffsetPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersOffsetPaginationRequest{\n\t\tPage: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tPerPage: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tOrder: rapiddocs.OrderAsc,\n\t\tStartingAfter: rapiddocs.String(\n\t\t\t\"starting_after\",\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithOffsetPaginationHasNextPage"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithOffsetPaginationHasNextPage(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListWithOffsetPaginationHasNextPageRequest{\n\t\tPage: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tLimit: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tOrder: rapiddocs.OrderAsc,\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "GET",
+                "identifier_override": "endpoint_users.listWithOffsetStepPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithOffsetStepPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersOffsetStepPaginationRequest{\n\t\tPage: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tLimit: rapiddocs.Int(\n\t\t\t1,\n\t\t),\n\t\tOrder: rapiddocs.OrderAsc,\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "POST",
+                "identifier_override": "endpoint_users.listWithBodyCursorPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithBodyCursorPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersBodyCursorPaginationRequest{\n\t\tPagination: \u0026rapiddocs.WithCursor{\n\t\t\tCursor: rapiddocs.String(\n\t\t\t\t\"cursor\",\n\t\t\t),\n\t\t},\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "POST",
+                "identifier_override": "endpoint_users.listWithBodyOffsetPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithBodyOffsetPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersBodyOffsetPaginationRequest{\n\t\tPagination: \u0026rapiddocs.WithPage{\n\t\t\tPage: rapiddocs.Int(\n\t\t\t\t1,\n\t\t\t),\n\t\t},\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/users",
+                "method": "POST",
+                "identifier_override": "endpoint_users.listWithMixedTypeCursorPagination"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/pagination/rapiddocs\"\n\trapiddocsclient \"github.com/pagination/rapiddocs/client\"\n\toption \"github.com/pagination/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Users.ListWithMixedTypeCursorPagination(\n\tcontext.TODO(),\n\t\u0026rapiddocs.ListUsersMixedTypeCursorPaginationRequest{\n\t\tCursor: rapiddocs.String(\n\t\t\t\"cursor\",\n\t\t),\n\t},\n)\n"
+            }
+        }
+    ]
+}

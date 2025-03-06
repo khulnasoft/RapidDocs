@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noUncheckedIndexedAccess": true
+  }
+}

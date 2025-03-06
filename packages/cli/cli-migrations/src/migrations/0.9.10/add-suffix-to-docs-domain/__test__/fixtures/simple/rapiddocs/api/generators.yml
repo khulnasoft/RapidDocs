@@ -1,0 +1,29 @@
+default-group: server
+groups:
+  server:
+    generators:
+      - name: rapiddocsapi/rapiddocs-fastapi-server
+        version: 0.3.4-rc0
+        output:
+          location: local-file-system
+          path: ../../app/rapiddocs/server
+  internal:
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-sdk
+        version: 0.3.0
+        output:
+          location: npm
+          url: npm.buildwithrapiddocs.com
+          package-name: "@rapiddocs-plantstore/api"
+  publish-staging:
+    audiences:
+      - external
+    docs:
+      domain: "plantstore-staging"
+    generators: []
+  publish-production:
+    audiences:
+      - external
+    docs:
+      domain: "plantstore"
+    generators: []

@@ -1,0 +1,45 @@
+import { AbsoluteFilePath } from "@khulnasoft/fs-utils";
+import { createMockTaskContext } from "@khulnasoft/task-context";
+
+import { replaceReferencedCode } from "../replaceReferencedCode";
+
+const absolutePathToRapiddocsFolder = AbsoluteFilePath.of("/path/to/rapiddocs");
+const absolutePathToMarkdownFile = AbsoluteFilePath.of("/path/to/rapiddocs/pages/test.mdx");
+const context = createMockTaskContext();
+
+describe("replaceReferencedCode", () => {
+    it("should replace the referenced code with the content of the code file", async () => {
+        const markdown = `
+            <Code src="../snippets/test.py" />
+            <Code src="../snippets/test.ts" />
+        `;
+
+        const result = await replaceReferencedCode({
+            markdown,
+            absolutePathToRapiddocsFolder,
+            absolutePathToMarkdownFile,
+            context,
+            fileLoader: async (filepath) => {
+                if (filepath === AbsoluteFilePath.of("/path/to/rapiddocs/snippets/test.py")) {
+                    return "test content";
+                }
+                if (filepath === AbsoluteFilePath.of("/path/to/rapiddocs/snippets/test.ts")) {
+                    return "test2 content\nwith multiple lines";
+                }
+                throw new Error(`Unexpected filepath: ${filepath}`);
+            }
+        });
+
+        expect(result).toBe(`
+            \`\`\`py title="test.py"
+            test content
+            \`\`\`
+
+            \`\`\`ts title="test.ts"
+            test2 content
+            with multiple lines
+            \`\`\`
+
+        `);
+    });
+});

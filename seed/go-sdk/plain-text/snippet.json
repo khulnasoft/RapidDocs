@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/text",
+                "method": "POST",
+                "identifier_override": "endpoint_service.getText"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/plain-text/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Service.GetText(\n\tcontext.TODO(),\n)\n"
+            }
+        }
+    ]
+}

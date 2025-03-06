@@ -1,0 +1,26 @@
+package example
+
+import (
+    client "github.com/path-parameters/rapiddocs/client"
+    option "github.com/path-parameters/rapiddocs/option"
+    context "context"
+    rapiddocs "github.com/path-parameters/rapiddocs"
+)
+
+func do() () {
+    client := client.NewClient(
+        option.WithBaseURL(
+            "https://api.rapiddocs.com",
+        ),
+    )
+    client.User.SearchUsers(
+        context.TODO(),
+        "tenant_id",
+        "user_id",
+        &rapiddocs.SearchUsersRequest{
+            Limit: rapiddocs.Int(
+                1,
+            ),
+        },
+    )
+}

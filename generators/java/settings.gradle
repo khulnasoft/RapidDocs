@@ -1,0 +1,6 @@
+rootProject.name = 'rapiddocs-java-plugins'
+
+include 'model'
+include 'sdk'
+include 'spring'
+include 'generator-utils'

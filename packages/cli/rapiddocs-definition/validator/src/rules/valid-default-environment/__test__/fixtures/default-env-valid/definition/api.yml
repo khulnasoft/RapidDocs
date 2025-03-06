@@ -1,0 +1,7 @@
+name: simple-api
+
+default-environment: staging
+
+environments:
+  staging: staging.rapiddocs.com
+  prod: prod.rapiddocs.com

@@ -1,0 +1,45 @@
+irVersion: v53
+displayName: Pydantic Model
+image: rapiddocsapi/rapiddocs-pydantic-model
+changelogLocation: ../../generators/python/pydantic/versions.yml
+
+buildScripts:
+  installScript:
+    commands:
+      - poetry shell
+      - poetry install
+  compileScript:
+    commands:
+      - poetry run mypy .
+
+publish:
+  workingDirectory: generators/python
+  preBuildCommands:
+    - pip install poetry
+    - poetry shell
+    - poetry config virtualenvs.in-project true
+    - poetry install
+  docker:
+    file: ./generators/python/pydantic/Dockerfile
+    image: rapiddocsapi/rapiddocs-pydantic-model
+    context: ./generators/python
+test:
+  docker:
+    image: rapiddocsapi/rapiddocs-pydantic-model:latest
+    command: docker build -f ./generators/python/pydantic/Dockerfile -t rapiddocsapi/rapiddocs-pydantic-model:latest ./generators/python
+
+language: python
+generatorType: Model
+defaultOutputMode: github
+fixtures:
+  exhaustive:
+    - customConfig:
+        version: v1
+      outputFolder: pydantic-v1
+    - customConfig:
+        version: v2
+      outputFolder: pydantic-v2
+allowedFailures:
+  - websocket
+  # Complex circular refs
+  - simple-fhir

@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/khulnasoft/rapiddocs/main/rapiddocs.schema.json
+
+service:
+  auth: false
+  base-path: ""
+  endpoints:
+    getWithBearerToken:
+      auth: true
+      docs: GET request with custom api key
+      path: /apiKey
+      method: GET
+      response: string

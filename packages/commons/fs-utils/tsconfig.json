@@ -1,0 +1,19 @@
+{
+  "extends": "@khulnasoft/configs/tsconfig/main.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../core-utils"
+    },
+    {
+      "path": "../path-utils"
+    }
+  ]
+}

@@ -1,0 +1,642 @@
+[
+    {
+        "sdk": {
+            "package": "rapiddocs_nullable",
+            "version": "0.0.1",
+            "type": "python"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_nullable.getUsers"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "from seed import SeedNullable"
+                ],
+                "isOptional": true,
+                "templateString": "client = SeedNullable(base_url=\"https://yourhost.com/path/to/api\", )",
+                "templateInputs": [],
+                "inputDelimiter": ",",
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "isOptional": true,
+                "templateString": "client.nullable.get_users(\n\t$RAPIDDOCS_INPUT\n)",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "usernames=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "QUERY",
+                                    "path": "usernames",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "avatar=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "QUERY",
+                                    "path": "avatar",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "activated=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "QUERY",
+                                    "path": "activated",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "tags=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "QUERY",
+                                    "path": "tags",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "extra=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "QUERY",
+                                    "path": "extra",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",\n\t",
+                "type": "generic"
+            },
+            "type": "v1"
+        },
+        "additionalTemplates": {
+            "async": {
+                "clientInstantiation": {
+                    "imports": [
+                        "from seed import AsyncSeedNullable"
+                    ],
+                    "isOptional": true,
+                    "templateString": "client = AsyncSeedNullable(base_url=\"https://yourhost.com/path/to/api\", )",
+                    "templateInputs": [],
+                    "inputDelimiter": ",",
+                    "type": "generic"
+                },
+                "functionInvocation": {
+                    "imports": [],
+                    "isOptional": true,
+                    "templateString": "await client.nullable.get_users(\n\t$RAPIDDOCS_INPUT\n)",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "usernames=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "QUERY",
+                                        "path": "usernames",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "avatar=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "QUERY",
+                                        "path": "avatar",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "activated=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "QUERY",
+                                        "path": "activated",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "tags=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "QUERY",
+                                        "path": "tags",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "extra=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "QUERY",
+                                        "path": "extra",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",\n\t",
+                    "type": "generic"
+                },
+                "type": "v1"
+            }
+        }
+    },
+    {
+        "sdk": {
+            "package": "rapiddocs_nullable",
+            "version": "0.0.1",
+            "type": "python"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "POST",
+            "identifierOverride": "endpoint_nullable.createUser"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "from seed import SeedNullable"
+                ],
+                "isOptional": true,
+                "templateString": "client = SeedNullable(base_url=\"https://yourhost.com/path/to/api\", )",
+                "templateInputs": [],
+                "inputDelimiter": ",",
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "isOptional": true,
+                "templateString": "client.nullable.create_user(\n\t$RAPIDDOCS_INPUT\n)",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "username=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "BODY",
+                                    "path": "username",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "containerTemplateString": "tags=[\n\t\t$RAPIDDOCS_INPUT\n\t]",
+                            "delimiter": ",\n\t\t",
+                            "innerTemplate": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "RELATIVE",
+                                        "path": null,
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            },
+                            "templateInput": {
+                                "location": "BODY",
+                                "path": "tags"
+                            },
+                            "type": "iterable"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [
+                                "from seed.nullable import Metadata"
+                            ],
+                            "isOptional": true,
+                            "templateString": "metadata=Metadata(\n\t\t$RAPIDDOCS_INPUT\n\t)",
+                            "templateInputs": [
+                                {
+                                    "type": "template",
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "templateString": "created_at=$RAPIDDOCS_INPUT",
+                                        "templateInputs": [
+                                            {
+                                                "location": "BODY",
+                                                "path": "metadata.createdAt",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    }
+                                },
+                                {
+                                    "type": "template",
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "templateString": "updated_at=$RAPIDDOCS_INPUT",
+                                        "templateInputs": [
+                                            {
+                                                "location": "BODY",
+                                                "path": "metadata.updatedAt",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    }
+                                },
+                                {
+                                    "type": "template",
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "templateString": "avatar=$RAPIDDOCS_INPUT",
+                                        "templateInputs": [
+                                            {
+                                                "location": "BODY",
+                                                "path": "metadata.avatar",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    }
+                                },
+                                {
+                                    "type": "template",
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "templateString": "activated=$RAPIDDOCS_INPUT",
+                                        "templateInputs": [
+                                            {
+                                                "location": "BODY",
+                                                "path": "metadata.activated",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    }
+                                }
+                            ],
+                            "inputDelimiter": ",\n\t\t",
+                            "type": "generic"
+                        }
+                    },
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "avatar=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "BODY",
+                                    "path": "avatar",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",\n\t",
+                "type": "generic"
+            },
+            "type": "v1"
+        },
+        "additionalTemplates": {
+            "async": {
+                "clientInstantiation": {
+                    "imports": [
+                        "from seed import AsyncSeedNullable"
+                    ],
+                    "isOptional": true,
+                    "templateString": "client = AsyncSeedNullable(base_url=\"https://yourhost.com/path/to/api\", )",
+                    "templateInputs": [],
+                    "inputDelimiter": ",",
+                    "type": "generic"
+                },
+                "functionInvocation": {
+                    "imports": [],
+                    "isOptional": true,
+                    "templateString": "await client.nullable.create_user(\n\t$RAPIDDOCS_INPUT\n)",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "username=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "BODY",
+                                        "path": "username",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "containerTemplateString": "tags=[\n\t\t$RAPIDDOCS_INPUT\n\t]",
+                                "delimiter": ",\n\t\t",
+                                "innerTemplate": {
+                                    "imports": [],
+                                    "isOptional": true,
+                                    "templateString": "$RAPIDDOCS_INPUT",
+                                    "templateInputs": [
+                                        {
+                                            "location": "RELATIVE",
+                                            "path": null,
+                                            "type": "payload"
+                                        }
+                                    ],
+                                    "type": "generic"
+                                },
+                                "templateInput": {
+                                    "location": "BODY",
+                                    "path": "tags"
+                                },
+                                "type": "iterable"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [
+                                    "from seed.nullable import Metadata"
+                                ],
+                                "isOptional": true,
+                                "templateString": "metadata=Metadata(\n\t\t$RAPIDDOCS_INPUT\n\t)",
+                                "templateInputs": [
+                                    {
+                                        "type": "template",
+                                        "value": {
+                                            "imports": [],
+                                            "isOptional": true,
+                                            "templateString": "created_at=$RAPIDDOCS_INPUT",
+                                            "templateInputs": [
+                                                {
+                                                    "location": "BODY",
+                                                    "path": "metadata.createdAt",
+                                                    "type": "payload"
+                                                }
+                                            ],
+                                            "type": "generic"
+                                        }
+                                    },
+                                    {
+                                        "type": "template",
+                                        "value": {
+                                            "imports": [],
+                                            "isOptional": true,
+                                            "templateString": "updated_at=$RAPIDDOCS_INPUT",
+                                            "templateInputs": [
+                                                {
+                                                    "location": "BODY",
+                                                    "path": "metadata.updatedAt",
+                                                    "type": "payload"
+                                                }
+                                            ],
+                                            "type": "generic"
+                                        }
+                                    },
+                                    {
+                                        "type": "template",
+                                        "value": {
+                                            "imports": [],
+                                            "isOptional": true,
+                                            "templateString": "avatar=$RAPIDDOCS_INPUT",
+                                            "templateInputs": [
+                                                {
+                                                    "location": "BODY",
+                                                    "path": "metadata.avatar",
+                                                    "type": "payload"
+                                                }
+                                            ],
+                                            "type": "generic"
+                                        }
+                                    },
+                                    {
+                                        "type": "template",
+                                        "value": {
+                                            "imports": [],
+                                            "isOptional": true,
+                                            "templateString": "activated=$RAPIDDOCS_INPUT",
+                                            "templateInputs": [
+                                                {
+                                                    "location": "BODY",
+                                                    "path": "metadata.activated",
+                                                    "type": "payload"
+                                                }
+                                            ],
+                                            "type": "generic"
+                                        }
+                                    }
+                                ],
+                                "inputDelimiter": ",\n\t\t",
+                                "type": "generic"
+                            }
+                        },
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "avatar=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "BODY",
+                                        "path": "avatar",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",\n\t",
+                    "type": "generic"
+                },
+                "type": "v1"
+            }
+        }
+    },
+    {
+        "sdk": {
+            "package": "rapiddocs_nullable",
+            "version": "0.0.1",
+            "type": "python"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "DELETE",
+            "identifierOverride": "endpoint_nullable.deleteUser"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "from seed import SeedNullable"
+                ],
+                "isOptional": true,
+                "templateString": "client = SeedNullable(base_url=\"https://yourhost.com/path/to/api\", )",
+                "templateInputs": [],
+                "inputDelimiter": ",",
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "isOptional": true,
+                "templateString": "client.nullable.delete_user(\n\t$RAPIDDOCS_INPUT\n)",
+                "templateInputs": [
+                    {
+                        "type": "template",
+                        "value": {
+                            "imports": [],
+                            "isOptional": true,
+                            "templateString": "username=$RAPIDDOCS_INPUT",
+                            "templateInputs": [
+                                {
+                                    "location": "BODY",
+                                    "path": "username",
+                                    "type": "payload"
+                                }
+                            ],
+                            "type": "generic"
+                        }
+                    }
+                ],
+                "inputDelimiter": ",\n\t",
+                "type": "generic"
+            },
+            "type": "v1"
+        },
+        "additionalTemplates": {
+            "async": {
+                "clientInstantiation": {
+                    "imports": [
+                        "from seed import AsyncSeedNullable"
+                    ],
+                    "isOptional": true,
+                    "templateString": "client = AsyncSeedNullable(base_url=\"https://yourhost.com/path/to/api\", )",
+                    "templateInputs": [],
+                    "inputDelimiter": ",",
+                    "type": "generic"
+                },
+                "functionInvocation": {
+                    "imports": [],
+                    "isOptional": true,
+                    "templateString": "await client.nullable.delete_user(\n\t$RAPIDDOCS_INPUT\n)",
+                    "templateInputs": [
+                        {
+                            "type": "template",
+                            "value": {
+                                "imports": [],
+                                "isOptional": true,
+                                "templateString": "username=$RAPIDDOCS_INPUT",
+                                "templateInputs": [
+                                    {
+                                        "location": "BODY",
+                                        "path": "username",
+                                        "type": "payload"
+                                    }
+                                ],
+                                "type": "generic"
+                            }
+                        }
+                    ],
+                    "inputDelimiter": ",\n\t",
+                    "type": "generic"
+                },
+                "type": "v1"
+            }
+        }
+    }
+]

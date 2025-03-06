@@ -1,0 +1,48 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/inlined",
+                "method": "POST",
+                "identifier_override": "endpoint_inlined-request.send"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/enum/rapiddocs\"\n\trapiddocsclient \"github.com/enum/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.InlinedRequest.Send(\n\tcontext.TODO(),\n\t\u0026rapiddocs.SendEnumInlinedRequest{\n\t\tOperand: rapiddocs.OperandGreaterThan,\n\t\tOperandOrColor: rapiddocs.NewColorOrOperandFromColor(\n\t\t\trapiddocs.ColorRed,\n\t\t),\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/path/{operand}/{operandOrColor}",
+                "method": "POST",
+                "identifier_override": "endpoint_path-param.send"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/enum/rapiddocs\"\n\trapiddocsclient \"github.com/enum/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.PathParam.Send(\n\tcontext.TODO(),\n\trapiddocs.OperandGreaterThan,\n\trapiddocs.NewColorOrOperandFromColor(\n\t\trapiddocs.ColorRed,\n\t),\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/query-list",
+                "method": "POST",
+                "identifier_override": "endpoint_query-param.sendList"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/enum/rapiddocs\"\n\trapiddocsclient \"github.com/enum/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.QueryParam.SendList(\n\tcontext.TODO(),\n\t\u0026rapiddocs.SendEnumListAsQueryParamRequest{\n\t\tOperand: []rapiddocs.Operand{\n\t\t\trapiddocs.OperandGreaterThan,\n\t\t},\n\t\tMaybeOperand: []*rapiddocs.Operand{\n\t\t\trapiddocs.OperandGreaterThan,\n\t\t},\n\t\tOperandOrColor: []*rapiddocs.ColorOrOperand{\n\t\t\trapiddocs.NewColorOrOperandFromColor(\n\t\t\t\trapiddocs.ColorRed,\n\t\t\t),\n\t\t},\n\t\tMaybeOperandOrColor: []**rapiddocs.ColorOrOperand{\n\t\t\trapiddocs.NewColorOrOperandFromColor(\n\t\t\t\trapiddocs.ColorRed,\n\t\t\t),\n\t\t},\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/query",
+                "method": "POST",
+                "identifier_override": "endpoint_query-param.send"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/enum/rapiddocs\"\n\trapiddocsclient \"github.com/enum/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.QueryParam.Send(\n\tcontext.TODO(),\n\t\u0026rapiddocs.SendEnumAsQueryParamRequest{\n\t\tOperand: rapiddocs.OperandGreaterThan,\n\t\tOperandOrColor: rapiddocs.NewColorOrOperandFromColor(\n\t\t\trapiddocs.ColorRed,\n\t\t),\n\t},\n)\n"
+            }
+        }
+    ]
+}

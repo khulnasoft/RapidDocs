@@ -1,0 +1,26 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/movies/create-movie",
+                "method": "POST",
+                "identifier_override": "endpoint_imdb.createMovie"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/imdb/rapiddocs\"\n\trapiddocsclient \"github.com/imdb/rapiddocs/client\"\n\toption \"github.com/imdb/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Imdb.CreateMovie(\n\tcontext.TODO(),\n\t\u0026rapiddocs.CreateMovieRequest{\n\t\tTitle:  \"title\",\n\t\tRating: 1.1,\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/movies/{movieId}",
+                "method": "GET",
+                "identifier_override": "endpoint_imdb.getMovie"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/imdb/rapiddocs/client\"\n\toption \"github.com/imdb/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nresponse, err := client.Imdb.GetMovie(\n\tcontext.TODO(),\n\t\"movieId\",\n)\n"
+            }
+        }
+    ]
+}

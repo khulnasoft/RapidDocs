@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/khulnasoft/rapiddocs/main/rapiddocs.schema.json
+
+imports:
+  root: __package__.yml
+
+types:
+  A:
+    extends: root.RootType

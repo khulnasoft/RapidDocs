@@ -1,0 +1,284 @@
+irVersion: v55
+displayName: TypeScript SDK
+image: rapiddocsapi/rapiddocs-typescript-node-sdk
+publish:
+  workingDirectory: generators/typescript
+  versionSubstitution: "$VERSION"
+  command:
+    - pnpm --filter @rapiddocs-typescript/sdk-generator-cli dockerTagVersion:browser "$VERSION"
+    - docker push rapiddocsapi/rapiddocs-typescript-browser-sdk:"$VERSION"
+    - pnpm --filter @rapiddocs-typescript/sdk-generator-cli dockerTagVersion:node "$VERSION"
+    - docker push rapiddocsapi/rapiddocs-typescript-node-sdk:"$VERSION"
+test:
+  docker:
+    image: rapiddocsapi/rapiddocs-typescript-node-sdk:local
+    command: pnpm --filter @rapiddocs-typescript/sdk-generator-cli dockerTagLocal:node
+  local:
+    workingDirectory: generators/typescript
+    buildCommand:
+      - pnpm --filter @rapiddocs-typescript/sdk-generator-cli compile
+      - pnpm --filter @rapiddocs-typescript/sdk-generator-cli build:node
+    runCommand: node sdk/cli/dist/nodeCli.cjs
+    env:
+      NODE_ENV: test
+
+language: typescript
+generatorType: SDK
+defaultOutputMode: github
+
+customFixtureConfig:
+  customConfig:
+    generateWireTests: true
+    noSerdeLayer: true
+fixtures:
+  imdb:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        omitUndefined: true
+      outputFolder: omit-undefined
+    - customConfig:
+        noScripts: true
+        extraDependencies:
+          dummy: "dummy"
+      outputFolder: noScripts
+    - customConfig:
+        useBrandedStringAliases: true
+      outputFolder: branded-string-aliases
+  streaming:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig: null
+      outputFolder: no-serde-layer
+    - customConfig:
+        allowCustomFetcher: true
+        timeoutInSeconds: 2
+      outputFolder: allow-custom-fetcher
+  audiences:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig: null
+      audiences:
+        - partner
+      outputFolder: with-partner-audience
+  exhaustive:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig: null
+      audiences:
+        - audience1
+        - audience2
+      outputFolder: with-audiences
+    - customConfig:
+        noSerdeLayer: true
+      outputFolder: no-serde-layer
+    - customConfig:
+        useBrandedStringAliases: true
+        neverThrowErrors: true
+        namespaceExport: "Fiddle"
+        bundle: true
+        includeUtilsOnUnionMembers: true
+        includeOtherInUnionTypes: true
+        extraDependencies:
+          lodash-es: "^4.17.21"
+      outputFolder: bundle
+    - customConfig:
+        useBrandedStringAliases: true
+        neverThrowErrors: true
+        namespaceExport: "Fiddle"
+        bundle: true
+        includeUtilsOnUnionMembers: true
+        includeOtherInUnionTypes: true
+        extraDependencies:
+          lodash-es: "^4.17.21"
+        packageJson:
+          version: "0.0.2"
+          dependencies:
+            stream: "^0.0.2"
+            qs: "^6.11.2"
+          files:
+            - exampleFile
+            - dist
+          browser:
+            command-exists: false
+            execa: false
+      outputFolder: custom-package-json
+    - customConfig:
+        retainOriginalCasing: true
+      outputFolder: retain-original-casing
+    - customConfig:
+        allowExtraFields: true
+      outputFolder: allow-extra-fields
+    - customConfig:
+        useBrandedStringAliases: true
+        neverThrowErrors: true
+        namespaceExport: "Fiddle"
+        bundle: true
+        includeUtilsOnUnionMembers: true
+        includeOtherInUnionTypes: true
+        extraDependencies:
+          lodash-es: "^4.17.21"
+        extraDevDependencies:
+          jest: "^29.7.0"
+        extraPeerDependencies:
+          "openai": "^4.47.1"
+        extraPeerDependenciesMeta:
+          "openai":
+            optional: true
+      outputFolder: dev-dependencies
+    - outputFolder: jsr
+      customConfig:
+        publishToJsr: true
+    - outputFolder: bigint
+      customConfig:
+        useBigInt: true
+    - outputFolder: bigint-no-serde-layer
+      customConfig:
+        useBigInt: true
+        noSerdeLayer: true
+  error-property:
+    - customConfig:
+        private: true
+        includeUtilsOnUnionMembers: true
+        includeOtherInUnionTypes: true
+      outputFolder: union-utils
+  undiscriminated-unions:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        skipResponseValidation: true
+      outputFolder: skip-response-validation
+  file-download:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        includeContentHeadersOnFileDownloadResponse: true
+      outputFolder: file-download-response-headers
+  file-upload:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        inlineFileProperties: true
+        inlinePathParameters: true
+      outputFolder: inline
+    - customConfig:
+        noSerdeLayer: true
+      outputFolder: no-serde
+  unknown:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        treatUnknownAsAny: true
+      outputFolder: unknown-as-any
+  query-parameters:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        noSerdeLayer: true
+      outputFolder: no-serde-layer-query
+  trace:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        noSerdeLayer: true
+      outputFolder: no-zurg-trace
+    - customConfig:
+        noSerdeLayer: true
+        neverThrowErrors: true
+      outputFolder: no-zurg-no-throwing
+    - customConfig:
+        useBrandedStringAliases: true
+        neverThrowErrors: true
+        includeCredentialsOnCrossOriginRequests: true
+        includeUtilsOnUnionMembers: true
+        includeOtherInUnionTypes: true
+        timeoutInSeconds: "infinity"
+      outputFolder: exhaustive
+  examples:
+    - customConfig:
+        includeApiReference: true
+      readmeConfig:
+        bannerLink: https://www.rapiddocsapi.com
+        apiReferenceLink: https://www.docs.rapiddocsapi.com
+        defaultEndpoint: POST /movie
+        features:
+          timeouts:
+            - GET /movie/{movieId}
+            - method: POST
+              path: /movie
+      outputFolder: examples-with-api-reference
+    - customConfig:
+        retainOriginalCasing: true
+      outputFolder: retain-original-casing
+  oauth-client-credentials-nested-root:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        neverThrowErrors: true
+      outputFolder: never-throw-errors
+  mixed-case:
+    - customConfig: null
+      outputFolder: no-custom-config
+    - customConfig:
+        retainOriginalCasing: true
+      outputFolder: retain-original-casing
+  ts-inline-types:
+    - customConfig:
+        noSerdeLayer: true
+        enableInlineTypes: true
+      outputFolder: inline
+    - customConfig:
+        noSerdeLayer: true
+        enableInlineTypes: false
+      outputFolder: no-inline
+  path-parameters:
+    - outputFolder: default
+    - customConfig:
+        retainOriginalCasing: true
+      outputFolder: retain-original-casing
+    - customConfig:
+        inlinePathParameters: true
+      outputFolder: inline-path-parameters
+    - customConfig:
+        inlinePathParameters: true
+        noSerdeLayer: true
+      outputFolder: inline-path-parameters-no-serde
+    - customConfig:
+        inlinePathParameters: true
+        retainOriginalCasing: true
+      outputFolder: inline-path-parameters-retain-original-casing
+scripts:
+  - docker: rapiddocsapi/ts-seed
+    commands:
+      - mkdir cache
+      - yarn install --cache-folder ./cache
+      - yarn build
+      - if grep -q '"test"' package.json && grep -q 'exhaustive' package.json; then yarn test --passWithNoTests --testPathPattern='exhaustive.*\.test\.ts$'; fi
+allowedFailures:
+  - response-property
+  - plain-text
+  - alias
+  - api-wide-base-path
+  - cross-package-type-names
+  - exhaustive:bundle
+  - exhaustive:dev-dependencies
+  - audiences:no-custom-config
+  - enum # throws b/c of undiscriminated union examples
+  - streaming-parameter
+  - imdb:noScripts
+  - circular-references
+  - oauth-client-credentials-custom
+  # the below are likely related to changes made to example generation
+  - multi-url-environment-no-default
+  - objects-with-imports
+  - reserved-keywords
+  - examples:examples-with-api-reference
+  - examples:retain-original-casing
+  # on 12/16/2024 noticed 5 failures related to fixtures below
+  - exhaustive:custom-package-json
+  - idempotency-headers
+  - oauth-client-credentials-nested-root:never-throw-errors
+  - trace:no-zurg-no-throwing
+  - trace:exhaustive
+  # Dynamic snippets
+  - unions # Required base properties need to be included in the example generator.

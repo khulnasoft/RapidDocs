@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`help > no arguments 1`] = `
+"rapiddocs-dev
+
+Commands:
+  rapiddocs-dev init                         Initialize a Rapiddocs API
+  rapiddocs-dev token                        Generate a Rapiddocs Token
+  rapiddocs-dev add <generator>              Add a code generator to generators.yml
+  rapiddocs-dev generate                     Generate all generators in the specified
+                                        group
+  rapiddocs-dev ir <path-to-output>          Generate IR (Intermediate
+                                        Representation)
+  rapiddocs-dev check                        Validates your Rapiddocs Definition. Logs
+                                        errors.
+  rapiddocs-dev login                        Log in to Rapiddocs via GitHub
+  rapiddocs-dev format                       Formats your Rapiddocs Definition
+  rapiddocs-dev write-definition             Write underlying Rapiddocs Definition for
+                                        OpenAPI specs and API Dependencies.
+  rapiddocs-dev docs                         Commands for managing your docs
+  rapiddocs-dev mock                         Starts a mock server for an API.
+  rapiddocs-dev write-overrides              Generate a basic openapi overrides file.
+  rapiddocs-dev test                         Runs tests specified in --command, this
+                                        spins up a mock server in the background
+                                        that is terminated upon completion of
+                                        the tests.
+  rapiddocs-dev api update                   Pulls the latest OpenAPI spec from the
+                                        specified origin in generators.yml and
+                                        updates the local spec.
+  rapiddocs-dev upgrade                      Upgrades version in rapiddocs.config.json.
+                                        Also upgrades generators in
+                                        generators.yml to their
+                                        minimum-compatible versions.
+  rapiddocs-dev jsonschema <path-to-output>  Generate JSON Schema for a specific type
+  rapiddocs-dev generator                    Operate on the generators within your
+                                        Rapiddocs configuration
+
+Options:
+      --help       Show help                                           [boolean]
+      --log-level
+          [choices: "trace", "debug", "info", "warn", "error"] [default: "info"]
+  -v, --version    Print current version"
+`;

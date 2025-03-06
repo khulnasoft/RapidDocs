@@ -1,0 +1,9 @@
+from rapiddocs_python.codegen import AST
+from rapiddocs_python.source_file_factory import SourceFileFactory
+
+
+def test_snippet_generator() -> None:
+    
+    snippet = SourceFileFactory(should_format=True).create_snippet()
+    snippet.add_arbitrary_code(AST.CodeWriter("x = 42"))
+    assert snippet.to_str() == "x = 42\n"

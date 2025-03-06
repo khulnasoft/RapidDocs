@@ -1,0 +1,26 @@
+name: Publish Python SDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The version of the Python SDK that you would like to release for Rapiddocs's public API"
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rapiddocs CLI
+        run: npm install -g khulnasoft
+
+      - name: Release Python SDK
+        env:
+          RAPIDDOCS_TOKEN: ${{ secrets.RAPIDDOCS_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          rapiddocs generate --api public-api --group python-sdk --version ${{ inputs.version }} --log-level debug

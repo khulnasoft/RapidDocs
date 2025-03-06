@@ -1,0 +1,54 @@
+name: Validate Test Definitions
+
+on:
+  push:
+    paths:
+      - "packages/**"
+      - "test-definitions/**"
+      - "test-definitions-openapi/**"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "packages/**"
+      - "test-definitions/**"
+      - "test-definitions-openapi/**"
+    branches:
+      - main
+
+# Cancel previous workflows on previous push
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: ./.github/actions/install
+
+      - uses: bufbuild/buf-setup-action@v1.34.0
+        with:
+          github_token: ${{ github.token }}
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Install protoc-gen-openapi
+        run: go install github.com/khulnasoft/protoc-gen-openapi/cmd/protoc-gen-openapi@latest
+
+      - name: Rapiddocs check
+        env:
+          FORCE_COLOR: "2"
+        run: |
+          pnpm --filter @khulnasoft/cli dist:cli:dev
+          cli_path="$(pwd)/packages/cli/cli/dist/dev/cli.cjs" 
+          cd test-definitions
+          RAPIDDOCS_NO_VERSION_REDIRECTION=true node $cli_path check
+          cd ../test-definitions-openapi
+          RAPIDDOCS_NO_VERSION_REDIRECTION=true node $cli_path check

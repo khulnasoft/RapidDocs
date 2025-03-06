@@ -1,0 +1,37 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/root/discriminated-union",
+                "method": "POST",
+                "identifier_override": "endpoint_.getDiscriminatedUnion"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/inline-types/rapiddocs\"\n\trapiddocsclient \"github.com/inline-types/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.GetDiscriminatedUnion(\n\tcontext.TODO(),\n\t\u0026rapiddocs.GetDiscriminatedUnionRequest{\n\t\tBar: rapiddocs.NewDiscriminatedUnion1FromType1(\n\t\t\t\u0026rapiddocs.DiscriminatedUnion1InlineType1{\n\t\t\t\tFoo: \"foo\",\n\t\t\t\tBar: \u0026rapiddocs.DiscriminatedUnion1InlineType1InlineType1{\n\t\t\t\t\tFoo: \"foo\",\n\t\t\t\t\tRef: \u0026rapiddocs.ReferenceType{\n\t\t\t\t\t\tFoo: \"foo\",\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t\tRef: \u0026rapiddocs.ReferenceType{\n\t\t\t\t\tFoo: \"foo\",\n\t\t\t\t},\n\t\t\t},\n\t\t),\n\t\tFoo: \"foo\",\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/root/root",
+                "method": "POST",
+                "identifier_override": "endpoint_.getRoot"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/inline-types/rapiddocs\"\n\trapiddocsclient \"github.com/inline-types/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.GetRoot(\n\tcontext.TODO(),\n\t\u0026rapiddocs.PostRootRequest{\n\t\tBar: \u0026rapiddocs.RequestTypeInlineType1{\n\t\t\tFoo: \"foo\",\n\t\t},\n\t\tFoo: \"foo\",\n\t},\n)\n"
+            }
+        },
+        {
+            "id": {
+                "path": "/root/undiscriminated-union",
+                "method": "POST",
+                "identifier_override": "endpoint_.getUndiscriminatedUnion"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/inline-types/rapiddocs\"\n\trapiddocsclient \"github.com/inline-types/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.GetUndiscriminatedUnion(\n\tcontext.TODO(),\n\t\u0026rapiddocs.GetUndiscriminatedUnionRequest{\n\t\tBar: rapiddocs.NewUndiscriminatedUnion1FromUndiscriminatedUnion1InlineType1(\n\t\t\t\u0026rapiddocs.UndiscriminatedUnion1InlineType1{\n\t\t\t\tFoo: \"foo\",\n\t\t\t\tBar: \u0026rapiddocs.UndiscriminatedUnion1InlineType1InlineType1{\n\t\t\t\t\tFoo: \"foo\",\n\t\t\t\t\tRef: \u0026rapiddocs.ReferenceType{\n\t\t\t\t\t\tFoo: \"foo\",\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t\tRef: \u0026rapiddocs.ReferenceType{\n\t\t\t\t\tFoo: \"foo\",\n\t\t\t\t},\n\t\t\t},\n\t\t),\n\t\tFoo: \"foo\",\n\t},\n)\n"
+            }
+        }
+    ]
+}

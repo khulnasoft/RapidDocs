@@ -1,0 +1,81 @@
+---
+title: 'Accordion Groups'
+description: 'Display expandable/collapsible options that can reveal more information'
+---
+
+Accordion Groups combine multiple accordions into a single collapsible interface. They maintain consistent styling and behavior while organizing related content into manageable sections.
+
+## Examples
+
+<AccordionGroup>
+  <Accordion title="Text Example">
+    This is a basic example of an accordion group.
+  </Accordion>
+
+  <Accordion title="Multimedia Example">
+    You can embed photos, videos, and other media within accordions for rich interactive content.
+
+    <embed 
+      src="./growing-rapiddocs.mp4" 
+      type="video/mp4"
+      width="640"
+      height="360"
+    />
+  </Accordion>
+
+  <Accordion title="Rich Content Support">
+    Accordions can contain rich content including code blocks, callouts, and other components.
+
+    ```ts
+    // Example of code inside an accordion
+    export function greet(name: string) {
+      return `Hello, ${name}!`;
+    }   
+    ```
+  </Accordion>
+  
+  <Accordion title="Best Practices Using Accordion Groups">
+    - Use accordion groups when you have multiple related sections
+    - Each accordion should have a clear, descriptive title
+    - Keep content concise and focused
+  </Accordion>
+</AccordionGroup>
+
+<Aside>
+  <CodeBlock title="Example Usage">
+    ````jsx
+    <AccordionGroup>
+      <Accordion title="Text Example">
+        This is a basic example of an accordion group.
+      </Accordion>
+
+      <Accordion title="Multimedia Example">
+        You can embed photos, videos, and other media within accordions for rich interactive content.
+
+        <embed 
+          src="./growing-rapiddocs.mp4" 
+          type="video/mp4"
+          width="640"
+          height="360"
+        />
+      </Accordion>
+
+      <Accordion title="Rich Content Support">
+        Accordions can contain rich content including code blocks, callouts, and other components.
+
+        ```ts
+        export function greet(name: string) {
+          return `Hello, ${name}!`;
+        }   
+        ```
+      </Accordion>
+      
+      <Accordion title="Best Practices Using Accordion Groups">
+        - Use accordion groups when you have multiple related sections
+        - Each accordion should have a clear title
+        - Keep content concise and focused
+      </Accordion>
+    </AccordionGroup>
+  ````
+  </CodeBlock>
+</Aside>

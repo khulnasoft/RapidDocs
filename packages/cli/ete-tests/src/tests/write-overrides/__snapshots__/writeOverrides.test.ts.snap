@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`overrides > petstore 1`] = `
+"paths:
+  /pets:
+    get:
+      x-rapiddocs-sdk-group-name:
+        - pets
+      x-rapiddocs-sdk-method-name: listPets
+    post:
+      x-rapiddocs-sdk-group-name:
+        - pets
+      x-rapiddocs-sdk-method-name: createPets
+  /pets/{petId}:
+    get:
+      x-rapiddocs-sdk-group-name:
+        - pets
+      x-rapiddocs-sdk-method-name: showPetById
+components:
+  schemas:
+    Pet:
+      x-rapiddocs-type-name: Pet
+    Pets:
+      x-rapiddocs-type-name: Pets
+    Error:
+      x-rapiddocs-type-name: Error
+"
+`;

@@ -1,0 +1,135 @@
+---
+title: Automated publishing to registries
+description: Rapiddocs will automatically publish your SDKs to registries like NPM, PyPI, and Maven
+---
+
+<Markdown src="/snippets/pro-callout.mdx" />
+
+Rapiddocs will automatically publish your SDKs to registries like NPM, PyPI, and Maven. This means 
+that you can easily distribute your SDKs to your users without having to worry 
+about the publishing process.
+
+<Steps>
+  ### Configure your output location
+  
+  In your `generators.yml` you can specify which generators (e.g. Python, Go, TypeScript) you 
+  would like to subscribe to. To publish to a registry, you will need to specify the `output` 
+  location for the SDK. 
+
+  <CodeBlocks>
+    <CodeBlock title="TypeScript">
+    ```yaml {7-10}
+      groups: 
+        ts-sdk: 
+          - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+            version: 0.13.0
+            config: 
+              namespaceExport: Imdb
+            output: 
+              location: npm
+              package-name: "@imdb/sdk"
+              token: ${ NPM_TOKEN } # must be present in the environment
+    ```
+    </CodeBlock>
+    <CodeBlock title="Python">
+    ```yaml {7-10}
+      groups: 
+        python-sdk: 
+          - name: rapiddocsapi/rapiddocs-python-sdk
+            version: 1.0.0
+            config: 
+              client_class_name: Imdb
+            output: 
+              location: pypi
+              package-name: "imdb"
+              token: ${ PYPI_TOKEN } # must be present in the environment
+    ```
+    </CodeBlock>
+    <CodeBlock title="Java">
+    ```yaml {7-10}
+      groups: 
+        java-sdk: 
+          - name: rapiddocsapi/rapiddocs-java-sdk
+            version: 0.12.0
+            config: 
+              client-class-name: Imdb
+            output: 
+              location: maven
+              username: ${ MAVEN_USERNAME } # must be present in the environment
+              password: ${ MAVEN_PASSWORD } # must be present in the environment
+              coordinate: com.imdb:imdb-java
+    ```
+    </CodeBlock>
+  </CodeBlocks>
+
+  ### Run `rapiddocs generate`
+
+  Once you have configured your `generators.yml`, you can run `rapiddocs generate` to 
+  trigger the SDK generation process. 
+
+  <Note>
+    To control the version of your package specify the `--version` flag. For example, 
+    `rapiddocs generate --version 1.0.0` would publish version `1.0.0`. 
+  </Note>
+</Steps>
+
+### Private registries
+
+In some cases, you may want to publish your SDKs to a private registry. Rapiddocs hosts 
+private registries for you at `npm.buildwithrapiddocs.com`, `pypi.buildwithrapiddocs.com`, 
+`maven.buildwithrapiddocs.com`, etc. To use an internal registry, simply specify the
+`url` field in your `generators.yml`:
+
+<Warning>
+  If you are using a private registry, then your package name must have `rapiddocs` postfixed to it. 
+  For example, `@imdb-rapiddocs/sdk`, `imdb-rapiddocs`, and `com.imdb.rapiddocs:imdb-java`. 
+</Warning>
+
+<CodeBlocks>
+  <CodeBlock title="TypeScript">
+  ```yaml {8}
+    groups: 
+      ts-sdk: 
+        - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+          version: 0.13.0
+          config: 
+            namespaceExport: Imdb
+          output: 
+            url: npm.buildwithrapiddocs.com
+            location: npm
+            package-name: "@imdb-rapiddocs/sdk"
+  ```
+  </CodeBlock>
+  <CodeBlock title="Python">
+  ```yaml {8}
+    groups: 
+      ts-sdk: 
+        - name: rapiddocsapi/rapiddocs-python-sdk
+          version: 1.0.0
+          config: 
+            client_class_name: Imdb
+          output: 
+            url: pypi.buildwithrapiddocs.com
+            location: pypi
+            package-name: "imdb-rapiddocs"
+  ```
+  </CodeBlock>
+  <CodeBlock title="Java">
+  ```yaml {8}
+    groups: 
+      ts-sdk: 
+        - name: rapiddocsapi/rapiddocs-java-sdk
+          version: 0.12.0
+          config: 
+            client-class-name: Imdb
+          output: 
+            url: maven.buildwithrapiddocs.com
+            location: maven
+            coordinate: com.imdb.rapiddocs:imdb-java
+  ```
+  </CodeBlock>
+</CodeBlocks>
+
+<Note>
+  To use a private registry, you will need to set the `FERN_TOKEN` environment variable.
+</Note>

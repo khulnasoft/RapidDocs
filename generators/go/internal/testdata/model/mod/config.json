@@ -1,0 +1,21 @@
+{
+    "irFilepath": "ir.json",
+    "output": {
+        "mode": {
+            "type": "downloadFiles"
+        },
+        "path": "tmp"
+    },
+    "customConfig": {
+        "module": {
+            "path": "github.com/example/organization",
+            "version": "1.19"
+        }
+    },
+    "workspaceName": "test",
+    "organization": "rapiddocsbot",
+    "environment": {
+        "_type": "local"
+    },
+    "dryRun": false
+}

@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://schema.buildwithrapiddocs.dev/generators-yml.json
+
+groups:
+  node-sdk:
+    audiences:
+      - external
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.9.2
+        output:
+          location: npm
+          package-name: '@khulnasoft/node-sdk'
+          token: ${NPM_TOKEN}
+        github:
+          repository: khulnasoft/node-sdk
+          license: MIT
+        config:
+          namespaceExport: Rapiddocs
+  python-sdk:
+    audiences:
+      - external
+    generators:
+      - name: rapiddocsapi/rapiddocs-python-sdk
+        version: 0.12.1
+        output:
+          location: pypi
+          package-name: khulnasoft
+          token: ${PYPI_TOKEN}
+        github:
+          repository: khulnasoft/python-sdk
+          license: MIT
+        config:
+          client_class_name: Rapiddocs
+  java-sdk:
+    audiences:
+      - external
+    generators:
+      - name: rapiddocsapi/rapiddocs-java-sdk
+        version: 0.8.7-rc2
+        output:
+          location: maven
+          coordinate: com.rapiddocs.api:rapiddocs-java-sdk
+          username: rapiddocsapi
+          password: ${MAVEN_PASSWORD}
+          signature:
+            keyId: ${MAVEN_CENTRAL_SECRET_KEY_KEY_ID}
+            password: ${MAVEN_CENTRAL_SECRET_KEY_PASSWORD}
+            secretKey: ${MAVEN_CENTRAL_SECRET_KEY}
+        github:
+          repository: khulnasoft/java-sdk
+          license: MIT
+          mode: pull-request
+        config:
+          client_class_name: Rapiddocs

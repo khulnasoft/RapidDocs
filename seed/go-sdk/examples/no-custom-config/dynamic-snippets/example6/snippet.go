@@ -1,0 +1,26 @@
+package example
+
+import (
+    client "github.com/examples/rapiddocs/client"
+    option "github.com/examples/rapiddocs/option"
+    context "context"
+    file "github.com/examples/rapiddocs/file"
+)
+
+func do() () {
+    client := client.NewClient(
+        option.WithBaseURL(
+            "https://api.rapiddocs.com",
+        ),
+        option.WithToken(
+            "<token>",
+        ),
+    )
+    client.File.Service.GetFile(
+        context.TODO(),
+        "filename",
+        &file.GetFileRequest{
+            XFileApiVersion: "X-File-API-Version",
+        },
+    )
+}

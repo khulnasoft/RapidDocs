@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/container",
+                "method": "DELETE",
+                "identifier_override": "endpoint_service.endpoint"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocsclient \"github.com/accept-header/rapiddocs/client\"\n\toption \"github.com/accept-header/rapiddocs/option\"\n)\n\nclient := rapiddocsclient.NewClient(\n\toption.WithToken(\n\t\t\"\u003cYOUR_AUTH_TOKEN\u003e\",\n\t),\n)\nerr := client.Service.Endpoint(\n\tcontext.TODO(),\n)\n"
+            }
+        }
+    ]
+}

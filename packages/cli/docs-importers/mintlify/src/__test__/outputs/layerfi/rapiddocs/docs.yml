@@ -1,0 +1,126 @@
+instances:
+  - url: https://layer.docs.buildwithrapiddocs.com
+title: Layer
+favicon: favicon.png
+logo:
+  light: logo/layer_logo.svg
+  dark: logo/layer_logo.svg
+  href: http://layerfi.com
+  height: 28
+colors:
+  accent-primary:
+    dark: '#0c48e5'
+    light: '#7e9be5'
+  background:
+    dark: '#090014'
+    light: null
+layout:
+  searchbar-placement: header
+  page-width: full
+  tabs-placement: header
+tabs:
+  api-reference:
+    slug: api-reference
+    display-name: API Reference
+  documentation:
+    display-name: Documentation
+    slug: documentation
+navigation:
+  - tab: api-reference
+    layout:
+      - section: Businesses
+        contents:
+          - page: Business object
+            icon: null
+            path: api-reference/business.mdx
+          - section: Plaid Configuration
+            contents: []
+      - section: Financial Activities
+        contents:
+          - section: Transactions
+            contents:
+              - page: Bank Transaction object
+                icon: null
+                path: api-reference/bank-transaction.mdx
+          - section: Payouts
+            contents: []
+          - section: Accounts Receivable
+            contents:
+              - section: Invoices
+                contents:
+                  - page: Invoice object
+                    icon: null
+                    path: api-reference/invoice.mdx
+              - section: Payments
+                contents:
+                  - page: Invoice Payment object
+                    icon: null
+                    path: api-reference/payments.mdx
+              - section: Refunds
+                contents:
+                  - page: Refunds object
+                    icon: null
+                    path: api-reference/refunds.mdx
+      - section: Reporting
+        contents:
+          - page: Profit and Loss object
+            icon: null
+            path: api-reference/pnl.mdx
+      - section: General Ledger
+        contents:
+          - page: General Ledger objects
+            icon: null
+            path: api-reference/ledger.mdx
+      - section: External Accounts
+        contents:
+          - section: Custom Accounts
+            contents: []
+      - section: Tags
+        contents: []
+      - section: Client Admin
+        contents:
+          - section: Configuration
+            contents:
+              - page: Plaid Configuration object
+                icon: null
+                path: api-reference/plaid.mdx
+  - tab: documentation
+    layout:
+      - section: Get Started
+        contents:
+          - page: Overview
+            icon: null
+            path: introduction.mdx
+          - page: Authentication
+            icon: null
+            path: authentication.mdx
+          - page: Onboarding a Business
+            icon: null
+            path: guides/business-onboarding.mdx
+      - section: Importing Financial Data
+        contents:
+          - page: Overview
+            icon: null
+            path: guides/importing-data-overview.mdx
+          - page: Invoices and Payments
+            icon: null
+            path: guides/importing-invoices.mdx
+          - page: Bank Accounts and Credit Cards
+            icon: null
+            path: guides/importing-bank-transactions.mdx
+      - section: Offering Accounting
+        contents:
+          - page: Overview
+            icon: null
+            path: guides/offering-accounting-overview.mdx
+          - page: Transaction Categorization
+            icon: null
+            path: guides/transaction-categorization.mdx
+          - page: Accounting Reports
+            icon: null
+            path: guides/reporting.mdx
+      - section: Embedded Components
+        contents:
+          - page: Overview
+            icon: null
+            path: guides/embedded-components.mdx

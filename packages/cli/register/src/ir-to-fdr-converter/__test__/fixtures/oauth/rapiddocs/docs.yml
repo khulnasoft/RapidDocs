@@ -1,0 +1,10 @@
+instances:
+  - url: https://rapiddocs.docs.buildwithrapiddocs.com
+title: rapiddocs | Documentation
+navigation:
+  - api: API Reference
+    playground:
+      oauth: true
+colors:
+  accentPrimary: '#ffffff'
+  background: '#000000'

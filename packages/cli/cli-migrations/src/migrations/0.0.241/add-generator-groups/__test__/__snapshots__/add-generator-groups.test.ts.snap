@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`add-generator-groups > simple 1`] = `
+"default-group: server
+groups:
+  server:
+    generators:
+      - name: rapiddocsapi/rapiddocs-java
+        version: 0.0.125-3-gfef2049
+        config:
+          mode: client_and_server
+          serverFrameworks: jersey
+      - name: rapiddocsapi/rapiddocs-fastapi-server
+        version: 0.0.21
+        output:
+          location: local-file-system
+          path: ../../app/rapiddocs/server
+      - name: rapiddocsapi/rapiddocs-typescript-sdk
+        version: 0.0.227
+  external:
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-sdk
+        version: 0.0.204
+        output:
+          location: npm
+          url: npm.buildwithrapiddocs.com
+          package-name: '@rapiddocs-acme/api'
+          token: \${FERN_NPM_TOKEN}
+      - name: rapiddocsapi/rapiddocs-java-sdk
+        version: 0.0.125
+        output:
+          location: maven
+          coordinate: dev.acmeapp:acme-java
+          username: \${ACME_MAVEN_USERNAME}
+          password: \${ACME_MAVEN_TOKEN}
+        github:
+          repository: acmeappdev/acme-java
+      - name: rapiddocsapi/rapiddocs-openapi
+        version: 0.0.10
+        github:
+          repository: acmeappdev/acme-openapi
+      - name: rapiddocsapi/rapiddocs-postman
+        version: 0.0.28
+        output:
+          location: postman
+          api-key: \${POSTMAN_API_KEY}
+          workspace-id: \${POSTMAN_WORKSPACE_ID}
+        github:
+          repository: acmeappdev/acme-postman
+"
+`;

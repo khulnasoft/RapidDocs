@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/hello",
+                "method": "POST",
+                "identifier_override": "endpoint_service.hello"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/code-samples/rapiddocs\"\n\trapiddocsclient \"github.com/code-samples/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nresponse, err := client.Service.Hello(\n\tcontext.TODO(),\n\t\u0026rapiddocs.MyRequest{\n\t\tNumEvents: 5,\n\t},\n)\n"
+            }
+        }
+    ]
+}

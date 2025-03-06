@@ -1,0 +1,67 @@
+{
+  "name": "@khulnasoft/local-workspace-runner",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khulnasoft/rapiddocs.git",
+    "directory": "packages/cli/generation/local-generation/local-workspace-runner"
+  },
+  "private": true,
+  "files": [
+    "lib"
+  ],
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf ./lib && tsc --build --clean",
+    "compile": "tsc --build",
+    "test": "vitest --passWithNoTests --run",
+    "test:update": "vitest --passWithNoTests --run -u",
+    "lint:eslint": "eslint --max-warnings 0 . --ignore-pattern=../../../../../.eslintignore",
+    "lint:eslint:fix": "yarn lint:eslint --fix",
+    "format": "prettier --write --ignore-unknown --ignore-path ../../../../../shared/.prettierignore \"**\"",
+    "format:check": "prettier --check --ignore-unknown --ignore-path ../../../../../shared/.prettierignore \"**\"",
+    "depcheck": "depcheck"
+  },
+  "dependencies": {
+    "@khulnasoft/api-workspace-commons": "workspace:*",
+    "@khulnasoft/cli-source-resolver": "workspace:*",
+    "@khulnasoft/configuration": "workspace:*",
+    "@khulnasoft/core-utils": "workspace:*",
+    "@khulnasoft/docker-utils": "workspace:*",
+    "@khulnasoft/fs-utils": "workspace:*",
+    "@khulnasoft/go-dynamic-snippets": "workspace:*",
+    "@khulnasoft/ir-generator": "workspace:*",
+    "@khulnasoft/ir-migrations": "workspace:*",
+    "@khulnasoft/ir-sdk": "workspace:*",
+    "@khulnasoft/logging-execa": "workspace:*",
+    "@khulnasoft/php-dynamic-snippets": "workspace:*",
+    "@khulnasoft/sdk": "0.12.3",
+    "@khulnasoft/task-context": "workspace:*",
+    "@khulnasoft/typescript-dynamic-snippets": "workspace:*",
+    "@khulnasoft/workspace-loader": "workspace:*",
+    "@rapiddocs-rapiddocs/fiddle-sdk": "0.0.584",
+    "@rapiddocs-rapiddocs/generator-exec-sdk": "^0.0.1021",
+    "chalk": "^5.3.0",
+    "decompress": "^4.2.1",
+    "prettier2": "npm:prettier@^2.7.1",
+    "tmp-promise": "^3.0.3"
+  },
+  "devDependencies": {
+    "@khulnasoft/configs": "workspace:*",
+    "@types/node": "18.15.3",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.56.0",
+    "prettier": "^3.4.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
+    "typescript": "5.7.2",
+    "@types/decompress": "^4.2.7",
+    "@types/jest": "^29.5.14",
+    "@types/prettier2": "npm:@types/prettier@^2.7.3",
+    "@types/tmp": "^0.2.4",
+    "vitest": "^2.1.9"
+  }
+}

@@ -1,0 +1,42 @@
+groups:
+  node:
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.8.13
+        output:
+          location: npm
+          url: npm.buildwithrapiddocs.com
+          package-name: "@rapiddocs-rapiddocs/ir-v47-sdk"
+        config:
+          includeUtilsOnUnionMembers: true
+          noOptionalProperties: true
+  java:
+    generators:
+      - name: rapiddocsapi/java-model
+        version: 0.5.20
+        output:
+          location: maven
+          url: maven.buildwithrapiddocs.com
+          coordinate: com.rapiddocs.rapiddocs:irV47
+        config:
+          wrapped-aliases: true
+          enable-forward-compatible-enums: true
+  python: 
+    generators:
+      - name: rapiddocsapi/rapiddocs-pydantic-model
+        version: 0.8.1-rc0
+        output:
+          location: pypi
+          url: pypi.buildwithrapiddocs.com
+          package-name: rapiddocs_rapiddocs_ir_v47
+        config:
+          wrapped_aliases: true
+          include_union_utils: true
+          frozen: true
+          version: v1
+  go: 
+    generators:
+      - name: rapiddocsapi/rapiddocs-go-model
+        version: 0.9.3
+        github:
+          repository: khulnasoft/ir-go

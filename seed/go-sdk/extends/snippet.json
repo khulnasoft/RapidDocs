@@ -1,0 +1,15 @@
+{
+    "endpoints": [
+        {
+            "id": {
+                "path": "/extends/extended-inline-request-body",
+                "method": "POST",
+                "identifier_override": "endpoint_.extendedInlineRequestBody"
+            },
+            "snippet": {
+                "type": "go",
+                "client": "import (\n\tcontext \"context\"\n\trapiddocs \"github.com/extends/rapiddocs\"\n\trapiddocsclient \"github.com/extends/rapiddocs/client\"\n)\n\nclient := rapiddocsclient.NewClient()\nerr := client.ExtendedInlineRequestBody(\n\tcontext.TODO(),\n\t\u0026rapiddocs.Inlined{\n\t\tUnique: \"unique\",\n\t},\n)\n"
+            }
+        }
+    ]
+}

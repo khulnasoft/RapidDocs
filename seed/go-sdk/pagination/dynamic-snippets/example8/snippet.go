@@ -1,0 +1,31 @@
+package example
+
+import (
+    client "github.com/pagination/rapiddocs/client"
+    option "github.com/pagination/rapiddocs/option"
+    context "context"
+    rapiddocs "github.com/pagination/rapiddocs"
+)
+
+func do() () {
+    client := client.NewClient(
+        option.WithBaseURL(
+            "https://api.rapiddocs.com",
+        ),
+        option.WithToken(
+            "<token>",
+        ),
+    )
+    client.Users.ListWithOffsetStepPagination(
+        context.TODO(),
+        &rapiddocs.ListUsersOffsetStepPaginationRequest{
+            Page: rapiddocs.Int(
+                1,
+            ),
+            Limit: rapiddocs.Int(
+                1,
+            ),
+            Order: rapiddocs.OrderAsc.Ptr(),
+        },
+    )
+}

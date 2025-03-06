@@ -1,0 +1,25 @@
+{
+  "extends": "@khulnasoft/configs/tsconfig/main.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../../../cli/rapiddocs-definition/schema"
+    },
+    {
+      "path": "../../../commons/core-utils"
+    },
+    {
+      "path": "../../task-context"
+    },
+    {
+      "path": "../../../commons/path-utils"
+    },
+  ]
+}

@@ -1,0 +1,725 @@
+import { kebabCase } from "lodash-es";
+import urlJoin from "url-join";
+
+import { docsYml } from "@khulnasoft/configuration-loader";
+import { isNonNullish } from "@khulnasoft/core-utils";
+import { APIV1Read, RapiddocsNavigation } from "@khulnasoft/fdr-sdk";
+import { AbsoluteFilePath } from "@khulnasoft/fs-utils";
+import { TaskContext } from "@khulnasoft/task-context";
+import { titleCase, visitDiscriminatedUnion } from "@khulnasoft/ui-core-utils";
+import { DocsWorkspace, RapiddocsWorkspace } from "@khulnasoft/workspace-loader";
+
+import { ApiDefinitionHolder } from "./ApiDefinitionHolder";
+import { ChangelogNodeConverter } from "./ChangelogNodeConverter";
+import { NodeIdGenerator } from "./NodeIdGenerator";
+import { convertPlaygroundSettings } from "./utils/convertPlaygroundSettings";
+import { enrichApiPackageChild } from "./utils/enrichApiPackageChild";
+import { isSubpackage } from "./utils/isSubpackage";
+import { mergeAndFilterChildren } from "./utils/mergeAndFilterChildren";
+import { mergeEndpointPairs } from "./utils/mergeEndpointPairs";
+import { stringifyEndpointPathParts } from "./utils/stringifyEndpointPathParts";
+import { toPageNode } from "./utils/toPageNode";
+import { toRelativeFilepath } from "./utils/toRelativeFilepath";
+
+export class ApiReferenceNodeConverter {
+    apiDefinitionId: RapiddocsNavigation.V1.ApiDefinitionId;
+    #holder: ApiDefinitionHolder;
+    #visitedEndpoints = new Set<RapiddocsNavigation.V1.EndpointId>();
+    #visitedWebSockets = new Set<RapiddocsNavigation.V1.WebSocketId>();
+    #visitedWebhooks = new Set<RapiddocsNavigation.V1.WebhookId>();
+    #visitedSubpackages = new Set<string>();
+    #nodeIdToSubpackageId = new Map<string, string[]>();
+    #children: RapiddocsNavigation.V1.ApiPackageChild[] = [];
+    #overviewPageId: RapiddocsNavigation.V1.PageId | undefined;
+    #slug: RapiddocsNavigation.V1.SlugGenerator;
+    #idgen: NodeIdGenerator;
+    private disableEndpointPairs;
+    constructor(
+        private apiSection: docsYml.DocsNavigationItem.ApiSection,
+        api: APIV1Read.ApiDefinition,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator,
+        private docsWorkspace: DocsWorkspace,
+        private taskContext: TaskContext,
+        private markdownFilesToFullSlugs: Map<AbsoluteFilePath, string>,
+        private markdownFilesToNoIndex: Map<AbsoluteFilePath, boolean>,
+        idgen: NodeIdGenerator,
+        private workspace?: RapiddocsWorkspace,
+        private hideChildren?: boolean
+    ) {
+        this.disableEndpointPairs = docsWorkspace.config.experimental?.disableStreamToggle ?? false;
+        this.apiDefinitionId = RapiddocsNavigation.V1.ApiDefinitionId(api.id);
+        this.#holder = ApiDefinitionHolder.create(api, taskContext);
+
+        // we are assuming that the apiDefinitionId is unique.
+        this.#idgen = idgen;
+
+        this.#overviewPageId =
+            this.apiSection.overviewAbsolutePath != null
+                ? RapiddocsNavigation.V1.PageId(toRelativeFilepath(this.docsWorkspace, this.apiSection.overviewAbsolutePath))
+                : undefined;
+
+        // the overview page markdown could contain a full slug, which would be used as the base slug for the API section.
+        const maybeFullSlug =
+            this.apiSection.overviewAbsolutePath != null
+                ? this.markdownFilesToFullSlugs.get(this.apiSection.overviewAbsolutePath)
+                : undefined;
+
+        this.#slug = parentSlug.apply({
+            fullSlug: maybeFullSlug?.split("/"),
+            skipUrlSlug: this.apiSection.skipUrlSlug,
+            urlSlug: this.apiSection.slug ?? kebabCase(this.apiSection.title)
+        });
+
+        // Step 1. Convert the navigation items that are manually defined in the API section.
+        if (this.apiSection.navigation != null) {
+            this.#children = this.#convertApiReferenceLayoutItems(
+                this.apiSection.navigation,
+                this.#holder.api.rootPackage,
+                this.#slug
+            );
+        }
+
+        // Step 2. Fill in the any missing navigation items from the API definition
+        this.#children = this.#mergeAndFilterChildren(
+            this.#children.map((child) => this.#enrichApiPackageChild(child)),
+            this.#convertApiDefinitionPackage(this.#holder.api.rootPackage, this.#slug)
+        );
+    }
+
+    public get(): RapiddocsNavigation.V1.ApiReferenceNode {
+        const pointsTo = RapiddocsNavigation.V1.followRedirects(this.#children);
+        const changelogNodeConverter = new ChangelogNodeConverter(
+            this.markdownFilesToFullSlugs,
+            this.markdownFilesToNoIndex,
+            this.workspace?.changelog?.files.map((file) => file.absoluteFilepath),
+            this.docsWorkspace,
+            this.#idgen
+        ).orUndefined();
+        return {
+            id: this.#idgen.get(this.apiDefinitionId),
+            type: "apiReference",
+            title: this.apiSection.title,
+            apiDefinitionId: this.apiDefinitionId,
+            overviewPageId: this.#overviewPageId,
+            paginated: this.apiSection.paginated,
+            slug: this.#slug.get(),
+            icon: this.apiSection.icon,
+            hidden: this.hideChildren || this.apiSection.hidden,
+            hideTitle: this.apiSection.flattened,
+            showErrors: this.apiSection.showErrors,
+            changelog: changelogNodeConverter?.toChangelogNode({
+                parentSlug: this.#slug,
+                viewers: undefined,
+                hidden: this.hideChildren
+            }),
+            children: this.#children,
+            availability: undefined,
+            pointsTo,
+            noindex: undefined,
+            playground: this.#convertPlaygroundSettings(this.apiSection.playground),
+            authed: undefined,
+            viewers: this.apiSection.viewers,
+            orphaned: this.apiSection.orphaned,
+            featureFlags: this.apiSection.featureFlags
+        };
+    }
+
+    // Step 1
+
+    #convertApiReferenceLayoutItems(
+        navigation: docsYml.ParsedApiReferenceLayoutItem[],
+        apiDefinitionPackage: APIV1Read.ApiDefinitionPackage | undefined,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageChild[] {
+        apiDefinitionPackage = this.#holder.resolveSubpackage(apiDefinitionPackage);
+        const apiDefinitionPackageId =
+            apiDefinitionPackage != null ? ApiDefinitionHolder.getSubpackageId(apiDefinitionPackage) : undefined;
+        return navigation
+            .map((item) =>
+                visitDiscriminatedUnion(item)._visit<RapiddocsNavigation.V1.ApiPackageChild | undefined>({
+                    link: (link) => ({
+                        id: this.#idgen.get(link.url),
+                        type: "link",
+                        title: link.text,
+                        icon: link.icon,
+                        url: RapiddocsNavigation.Url(link.url)
+                    }),
+                    page: (page) => this.#toPageNode(page, parentSlug),
+                    package: (pkg) => this.#convertPackage(pkg, parentSlug),
+                    section: (section) => this.#convertSection(section, parentSlug),
+                    item: ({ value: unknownIdentifier }): RapiddocsNavigation.V1.ApiPackageChild | undefined =>
+                        this.#convertUnknownIdentifier(unknownIdentifier, apiDefinitionPackageId, parentSlug),
+                    endpoint: (endpoint) => this.#convertEndpoint(endpoint, apiDefinitionPackageId, parentSlug)
+                })
+            )
+            .filter(isNonNullish);
+    }
+
+    #toPageNode(
+        page: docsYml.DocsNavigationItem.Page,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.PageNode {
+        return toPageNode({
+            page,
+            parentSlug,
+            docsWorkspace: this.docsWorkspace,
+            markdownFilesToFullSlugs: this.markdownFilesToFullSlugs,
+            markdownFilesToNoIndex: this.markdownFilesToNoIndex,
+            idgen: this.#idgen,
+            hideChildren: this.hideChildren
+        });
+    }
+
+    #convertPackage(
+        pkg: docsYml.ParsedApiReferenceLayoutItem.Package,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageNode {
+        const overviewPageId =
+            pkg.overviewAbsolutePath != null
+                ? RapiddocsNavigation.V1.PageId(toRelativeFilepath(this.docsWorkspace, pkg.overviewAbsolutePath))
+                : undefined;
+
+        const maybeFullSlug =
+            pkg.overviewAbsolutePath != null ? this.markdownFilesToFullSlugs.get(pkg.overviewAbsolutePath) : undefined;
+
+        const subpackage = this.#holder.getSubpackageByIdOrLocator(pkg.package);
+
+        if (subpackage != null) {
+            const subpackageId = ApiDefinitionHolder.getSubpackageId(subpackage);
+            const subpackageNodeId = this.#idgen.get(overviewPageId ?? `${this.apiDefinitionId}:${subpackageId}`);
+
+            if (this.#visitedSubpackages.has(subpackageId)) {
+                this.taskContext.logger.error(
+                    `Duplicate subpackage found in the API Reference layout: ${subpackageId}`
+                );
+            }
+
+            this.#visitedSubpackages.add(subpackageId);
+            this.#nodeIdToSubpackageId.set(subpackageNodeId, [subpackageId]);
+            const urlSlug =
+                pkg.slug ??
+                (isSubpackage(subpackage)
+                    ? subpackage.urlSlug
+                    : (this.apiSection.slug ?? kebabCase(this.apiSection.title)));
+            const slug = parentSlug.apply({
+                fullSlug: maybeFullSlug?.split("/"),
+                skipUrlSlug: pkg.skipUrlSlug,
+                urlSlug
+            });
+            const convertedItems = this.#convertApiReferenceLayoutItems(pkg.contents, subpackage, slug);
+            return {
+                id: subpackageNodeId,
+                type: "apiPackage",
+                children: convertedItems,
+                title:
+                    pkg.title ??
+                    (isSubpackage(subpackage)
+                        ? (subpackage.displayName ?? titleCase(subpackage.name))
+                        : this.apiSection.title),
+                slug: slug.get(),
+                icon: pkg.icon,
+                hidden: this.hideChildren || pkg.hidden,
+                overviewPageId,
+                availability: undefined,
+                apiDefinitionId: this.apiDefinitionId,
+                pointsTo: undefined,
+                noindex: undefined,
+                playground: this.#convertPlaygroundSettings(pkg.playground),
+                authed: undefined,
+                viewers: pkg.viewers,
+                orphaned: pkg.orphaned,
+                featureFlags: pkg.featureFlags
+            };
+        } else {
+            this.taskContext.logger.warn(
+                `Subpackage ${pkg.package} not found in ${this.apiDefinitionId}, treating it as a section`
+            );
+            const urlSlug = pkg.slug ?? kebabCase(pkg.package);
+            const slug = parentSlug.apply({
+                fullSlug: maybeFullSlug?.split("/"),
+                skipUrlSlug: pkg.skipUrlSlug,
+                urlSlug
+            });
+            const convertedItems = this.#convertApiReferenceLayoutItems(pkg.contents, undefined, slug);
+            return {
+                id: this.#idgen.get(overviewPageId ?? `${this.apiDefinitionId}:${kebabCase(pkg.package)}`),
+                type: "apiPackage",
+                children: convertedItems,
+                title: pkg.title ?? pkg.package,
+                slug: slug.get(),
+                icon: pkg.icon,
+                hidden: this.hideChildren || pkg.hidden,
+                overviewPageId,
+                availability: undefined,
+                apiDefinitionId: this.apiDefinitionId,
+                pointsTo: undefined,
+                noindex: undefined,
+                playground: this.#convertPlaygroundSettings(pkg.playground),
+                authed: undefined,
+                viewers: pkg.viewers,
+                orphaned: pkg.orphaned,
+                featureFlags: pkg.featureFlags
+            };
+        }
+    }
+
+    #convertSection(
+        section: docsYml.ParsedApiReferenceLayoutItem.Section,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageNode {
+        const overviewPageId =
+            section.overviewAbsolutePath != null
+                ? RapiddocsNavigation.V1.PageId(toRelativeFilepath(this.docsWorkspace, section.overviewAbsolutePath))
+                : undefined;
+
+        const maybeFullSlug =
+            section.overviewAbsolutePath != null
+                ? this.markdownFilesToFullSlugs.get(section.overviewAbsolutePath)
+                : undefined;
+
+        const noindex =
+            section.overviewAbsolutePath != null
+                ? this.markdownFilesToNoIndex.get(section.overviewAbsolutePath)
+                : undefined;
+
+        const nodeId = this.#idgen.get(overviewPageId ?? maybeFullSlug ?? parentSlug.get());
+
+        const subpackageIds = section.referencedSubpackages
+            .map((locator) => {
+                const subpackage = this.#holder.getSubpackageByIdOrLocator(locator);
+                return subpackage != null ? ApiDefinitionHolder.getSubpackageId(subpackage) : undefined;
+            })
+            .filter((subpackageId) => {
+                if (subpackageId == null) {
+                    this.taskContext.logger.error(`Subpackage ${subpackageId} not found in ${this.apiDefinitionId}`);
+                }
+                return subpackageId != null;
+            })
+            .filter(isNonNullish);
+
+        this.#nodeIdToSubpackageId.set(nodeId, subpackageIds);
+        subpackageIds.forEach((subpackageId) => {
+            if (this.#visitedSubpackages.has(subpackageId)) {
+                this.taskContext.logger.error(
+                    `Duplicate subpackage found in the API Reference layout: ${subpackageId}`
+                );
+            }
+            this.#visitedSubpackages.add(subpackageId);
+        });
+
+        const urlSlug = section.slug ?? kebabCase(section.title);
+        const slug = parentSlug.apply({
+            fullSlug: maybeFullSlug?.split("/"),
+            skipUrlSlug: section.skipUrlSlug,
+            urlSlug
+        });
+        const convertedItems = this.#convertApiReferenceLayoutItems(section.contents, undefined, slug);
+        return {
+            id: nodeId,
+            type: "apiPackage",
+            children: convertedItems,
+            title: section.title,
+            slug: slug.get(),
+            icon: section.icon,
+            hidden: this.hideChildren || section.hidden,
+            overviewPageId,
+            availability: undefined,
+            apiDefinitionId: this.apiDefinitionId,
+            pointsTo: undefined,
+            noindex,
+            playground: this.#convertPlaygroundSettings(section.playground),
+            authed: undefined,
+            viewers: section.viewers,
+            orphaned: section.orphaned,
+            featureFlags: section.featureFlags
+        };
+    }
+
+    #convertUnknownIdentifier(
+        unknownIdentifier: string,
+        apiDefinitionPackageId: string | undefined,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageChild | undefined {
+        unknownIdentifier = unknownIdentifier.trim();
+        // unknownIdentifier could either be a package, endpoint, websocket, or webhook.
+        // We need to determine which one it is.
+        const subpackage = this.#holder.getSubpackageByIdOrLocator(unknownIdentifier);
+        if (subpackage != null) {
+            const subpackageId = ApiDefinitionHolder.getSubpackageId(subpackage);
+            const subpackageNodeId = this.#idgen.get(`${this.apiDefinitionId}:${subpackageId}`);
+
+            if (this.#visitedSubpackages.has(subpackageId)) {
+                this.taskContext.logger.error(
+                    `Duplicate subpackage found in the API Reference layout: ${subpackageId}`
+                );
+            }
+
+            this.#visitedSubpackages.add(subpackageId);
+            this.#nodeIdToSubpackageId.set(subpackageNodeId, [subpackageId]);
+            const urlSlug = isSubpackage(subpackage) ? subpackage.urlSlug : "";
+            const slug = parentSlug.apply({ urlSlug });
+            return {
+                id: subpackageNodeId,
+                type: "apiPackage",
+                children: [],
+                title: isSubpackage(subpackage)
+                    ? (subpackage.displayName ?? titleCase(subpackage.name))
+                    : this.apiSection.title,
+                slug: slug.get(),
+                icon: undefined,
+                hidden: this.hideChildren,
+                overviewPageId: undefined,
+                availability: undefined,
+                apiDefinitionId: this.apiDefinitionId,
+                pointsTo: undefined,
+                noindex: undefined,
+                playground: undefined,
+                authed: undefined,
+                viewers: undefined,
+                orphaned: undefined,
+                featureFlags: undefined
+            };
+        }
+
+        // if the unknownIdentifier is not a subpackage, it could be an http endpoint, websocket, or webhook.
+        return this.#convertEndpoint(
+            {
+                type: "endpoint",
+                endpoint: unknownIdentifier,
+                title: undefined,
+                icon: undefined,
+                slug: undefined,
+                hidden: undefined,
+                playground: undefined,
+                viewers: undefined,
+                orphaned: undefined,
+                featureFlags: undefined
+            },
+            apiDefinitionPackageId,
+            parentSlug
+        );
+    }
+
+    #convertEndpoint(
+        endpointItem: docsYml.ParsedApiReferenceLayoutItem.Endpoint,
+        apiDefinitionPackageIdRaw: string | undefined,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageChild | undefined {
+        const endpoint =
+            (apiDefinitionPackageIdRaw != null
+                ? this.#holder.subpackages
+                      .get(APIV1Read.SubpackageId(apiDefinitionPackageIdRaw))
+                      ?.endpoints.get(APIV1Read.EndpointId(endpointItem.endpoint))
+                : undefined) ?? this.#holder.endpointsByLocator.get(endpointItem.endpoint);
+        if (endpoint != null) {
+            const endpointId = this.#holder.getEndpointId(endpoint);
+            if (endpointId == null) {
+                throw new Error(`Expected Endpoint ID for ${endpoint.id}. Got undefined.`);
+            }
+            if (this.#visitedEndpoints.has(endpointId)) {
+                this.taskContext.logger.error(`Duplicate endpoint found in the API Reference layout: ${endpointId}`);
+            }
+            this.#visitedEndpoints.add(endpointId);
+            const endpointSlug =
+                endpointItem.slug != null ? parentSlug.append(endpointItem.slug) : parentSlug.apply(endpoint);
+            return {
+                id: this.#idgen.get(`${this.apiDefinitionId}:${endpointId}`),
+                type: "endpoint",
+                method: endpoint.method,
+                endpointId,
+                apiDefinitionId: this.apiDefinitionId,
+                availability: RapiddocsNavigation.V1.convertAvailability(endpoint.availability),
+                isResponseStream: endpoint.response?.type.type === "stream",
+                title: endpointItem.title ?? endpoint.name ?? stringifyEndpointPathParts(endpoint.path.parts),
+                slug: endpointSlug.get(),
+                icon: endpointItem.icon,
+                hidden: this.hideChildren || endpointItem.hidden,
+                playground: this.#convertPlaygroundSettings(endpointItem.playground),
+                authed: undefined,
+                viewers: endpointItem.viewers,
+                orphaned: endpointItem.orphaned,
+                featureFlags: endpointItem.featureFlags
+            };
+        }
+
+        const webSocket =
+            (apiDefinitionPackageIdRaw != null
+                ? this.#holder.subpackages
+                      .get(APIV1Read.SubpackageId(apiDefinitionPackageIdRaw))
+                      ?.webSockets.get(APIV1Read.WebSocketId(endpointItem.endpoint))
+                : undefined) ?? this.#holder.webSocketsByLocator.get(endpointItem.endpoint);
+
+        if (webSocket != null) {
+            const webSocketId = this.#holder.getWebSocketId(webSocket);
+            if (webSocketId == null) {
+                throw new Error(`Expected WebSocket ID for ${webSocket.id}. Got undefined.`);
+            }
+            if (this.#visitedWebSockets.has(webSocketId)) {
+                this.taskContext.logger.error(`Duplicate web socket found in the API Reference layout: ${webSocketId}`);
+            }
+            this.#visitedWebSockets.add(webSocketId);
+            return {
+                id: this.#idgen.get(`${this.apiDefinitionId}:${webSocketId}`),
+                type: "webSocket",
+                webSocketId,
+                title: endpointItem.title ?? webSocket.name ?? stringifyEndpointPathParts(webSocket.path.parts),
+                slug: (endpointItem.slug != null
+                    ? parentSlug.append(endpointItem.slug)
+                    : parentSlug.apply(webSocket)
+                ).get(),
+                icon: endpointItem.icon,
+                hidden: this.hideChildren || endpointItem.hidden,
+                apiDefinitionId: this.apiDefinitionId,
+                availability: RapiddocsNavigation.V1.convertAvailability(webSocket.availability),
+                playground: this.#convertPlaygroundSettings(endpointItem.playground),
+                authed: undefined,
+                viewers: endpointItem.viewers,
+                orphaned: endpointItem.orphaned,
+                featureFlags: endpointItem.featureFlags
+            };
+        }
+
+        const webhook =
+            (apiDefinitionPackageIdRaw != null
+                ? this.#holder.subpackages
+                      .get(APIV1Read.SubpackageId(apiDefinitionPackageIdRaw))
+                      ?.webhooks.get(APIV1Read.WebhookId(endpointItem.endpoint))
+                : undefined) ?? this.#holder.webhooks.get(RapiddocsNavigation.V1.WebhookId(endpointItem.endpoint));
+
+        if (webhook != null) {
+            const webhookId = this.#holder.getWebhookId(webhook);
+            if (webhookId == null) {
+                throw new Error(`Expected Webhook ID for ${webhook.id}. Got undefined.`);
+            }
+            if (this.#visitedWebhooks.has(webhookId)) {
+                this.taskContext.logger.error(`Duplicate webhook found in the API Reference layout: ${webhookId}`);
+            }
+            this.#visitedWebhooks.add(webhookId);
+            return {
+                id: this.#idgen.get(`${this.apiDefinitionId}:${webhookId}`),
+                type: "webhook",
+                webhookId,
+                method: webhook.method,
+                title: endpointItem.title ?? webhook.name ?? urlJoin("/", ...webhook.path),
+                slug: (endpointItem.slug != null
+                    ? parentSlug.append(endpointItem.slug)
+                    : parentSlug.apply(webhook)
+                ).get(),
+                icon: endpointItem.icon,
+                hidden: this.hideChildren || endpointItem.hidden,
+                apiDefinitionId: this.apiDefinitionId,
+                availability: undefined,
+                authed: undefined,
+                viewers: endpointItem.viewers,
+                orphaned: endpointItem.orphaned,
+                featureFlags: endpointItem.featureFlags
+            };
+        }
+
+        this.taskContext.logger.error("Unknown identifier in the API Reference layout: ", endpointItem.endpoint);
+
+        return;
+    }
+
+    // Step 2
+
+    #mergeAndFilterChildren(
+        left: RapiddocsNavigation.V1.ApiPackageChild[],
+        right: RapiddocsNavigation.V1.ApiPackageChild[]
+    ): RapiddocsNavigation.V1.ApiPackageChild[] {
+        return mergeAndFilterChildren({
+            left,
+            right,
+            findEndpointById: (endpointId) => this.#holder.endpoints.get(endpointId),
+            stringifyEndpointPathParts: (endpoint: APIV1Read.EndpointDefinition) =>
+                stringifyEndpointPathParts(endpoint.path.parts),
+            disableEndpointPairs: this.disableEndpointPairs,
+            apiDefinitionId: this.apiDefinitionId
+        });
+    }
+
+    #enrichApiPackageChild(child: RapiddocsNavigation.V1.ApiPackageChild): RapiddocsNavigation.V1.ApiPackageChild {
+        return enrichApiPackageChild({
+            child,
+            nodeIdToSubpackageId: this.#nodeIdToSubpackageId,
+            convertApiDefinitionPackageId: (subpackageId, slug) =>
+                this.#convertApiDefinitionPackageId(subpackageId, slug),
+            mergeAndFilterChildren: this.#mergeAndFilterChildren.bind(this)
+        });
+    }
+
+    #convertApiDefinitionPackage(
+        pkg: APIV1Read.ApiDefinitionPackage,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageChild[] {
+        // if an endpoint, websocket, webhook, or subpackage is not visited, add it to the additional children list
+        let additionalChildren: RapiddocsNavigation.V1.ApiPackageChild[] = [];
+
+        pkg.endpoints.forEach((endpoint) => {
+            const endpointId = this.#holder.getEndpointId(endpoint);
+            if (endpointId == null) {
+                throw new Error(`Expected Endpoint ID for ${endpoint.id}. Got undefined.`);
+            }
+            if (this.#visitedEndpoints.has(endpointId)) {
+                return;
+            }
+
+            const endpointSlug = parentSlug.apply(endpoint);
+            additionalChildren.push({
+                id: RapiddocsNavigation.V1.NodeId(`${this.apiDefinitionId}:${endpointId}`),
+                type: "endpoint",
+                method: endpoint.method,
+                endpointId,
+                apiDefinitionId: this.apiDefinitionId,
+                availability: RapiddocsNavigation.V1.convertAvailability(endpoint.availability),
+                isResponseStream: endpoint.response?.type.type === "stream",
+                title: endpoint.name ?? stringifyEndpointPathParts(endpoint.path.parts),
+                slug: endpointSlug.get(),
+                icon: undefined,
+                hidden: this.hideChildren,
+                playground: undefined,
+                authed: undefined,
+                viewers: undefined,
+                orphaned: undefined,
+                featureFlags: undefined
+            });
+        });
+
+        pkg.websockets.forEach((webSocket) => {
+            const webSocketId = this.#holder.getWebSocketId(webSocket);
+            if (webSocketId == null) {
+                throw new Error(`Expected WebSocket ID for ${webSocket.id}. Got undefined.`);
+            }
+            if (this.#visitedWebSockets.has(webSocketId)) {
+                return;
+            }
+            additionalChildren.push({
+                id: RapiddocsNavigation.V1.NodeId(`${this.apiDefinitionId}:${webSocketId}`),
+                type: "webSocket",
+                webSocketId,
+                title: webSocket.name ?? stringifyEndpointPathParts(webSocket.path.parts),
+                slug: parentSlug.apply(webSocket).get(),
+                icon: undefined,
+                hidden: this.hideChildren,
+                apiDefinitionId: this.apiDefinitionId,
+                availability: RapiddocsNavigation.V1.convertAvailability(webSocket.availability),
+                playground: undefined,
+                authed: undefined,
+                viewers: undefined,
+                orphaned: undefined,
+                featureFlags: undefined
+            });
+        });
+
+        pkg.webhooks.forEach((webhook) => {
+            const webhookId = this.#holder.getWebhookId(webhook);
+            if (webhookId == null) {
+                throw new Error(`Expected Webhook ID for ${webhook.id}. Got undefined.`);
+            }
+            if (this.#visitedWebhooks.has(webhookId)) {
+                return;
+            }
+            additionalChildren.push({
+                id: RapiddocsNavigation.V1.NodeId(`${this.apiDefinitionId}:${webhookId}`),
+                type: "webhook",
+                webhookId,
+                method: webhook.method,
+                title: webhook.name ?? titleCase(webhook.id),
+                slug: parentSlug.apply(webhook).get(),
+                icon: undefined,
+                hidden: this.hideChildren,
+                apiDefinitionId: this.apiDefinitionId,
+                availability: undefined,
+                authed: undefined,
+                viewers: undefined,
+                orphaned: undefined,
+                featureFlags: undefined
+            });
+        });
+
+        pkg.subpackages.forEach((subpackageId) => {
+            if (this.#visitedSubpackages.has(subpackageId)) {
+                return;
+            }
+
+            const subpackage = this.#holder.getSubpackageByIdOrLocator(subpackageId);
+            if (subpackage == null) {
+                this.taskContext.logger.error(`Subpackage ${subpackageId} not found in ${this.apiDefinitionId}`);
+                return;
+            }
+
+            const slug = isSubpackage(subpackage) ? parentSlug.apply(subpackage) : parentSlug;
+            const subpackageChildren = this.#convertApiDefinitionPackageId(subpackageId, slug);
+            if (subpackageChildren.length > 0) {
+                additionalChildren.push({
+                    id: RapiddocsNavigation.V1.NodeId(`${this.apiDefinitionId}:${subpackageId}`),
+                    type: "apiPackage",
+                    children: subpackageChildren,
+                    title: isSubpackage(subpackage)
+                        ? (subpackage.displayName ?? titleCase(subpackage.name))
+                        : this.apiSection.title,
+                    slug: slug.get(),
+                    icon: undefined,
+                    hidden: this.hideChildren,
+                    overviewPageId: undefined,
+                    availability: undefined,
+                    apiDefinitionId: this.apiDefinitionId,
+                    pointsTo: undefined,
+                    noindex: undefined,
+                    playground: undefined,
+                    authed: undefined,
+                    viewers: undefined,
+                    orphaned: undefined,
+                    featureFlags: undefined
+                });
+            }
+        });
+
+        additionalChildren = this.mergeEndpointPairs(additionalChildren);
+
+        if (this.apiSection.alphabetized) {
+            additionalChildren = additionalChildren.sort((a, b) => {
+                const aTitle = a.type === "endpointPair" ? a.nonStream.title : a.title;
+                const bTitle = b.type === "endpointPair" ? b.nonStream.title : b.title;
+                return aTitle.localeCompare(bTitle);
+            });
+        }
+
+        return additionalChildren;
+    }
+
+    #convertApiDefinitionPackageId(
+        packageId: string | undefined,
+        parentSlug: RapiddocsNavigation.V1.SlugGenerator
+    ): RapiddocsNavigation.V1.ApiPackageChild[] {
+        const pkg =
+            packageId != null
+                ? this.#holder.resolveSubpackage(this.#holder.getSubpackageByIdOrLocator(packageId))
+                : undefined;
+
+        if (pkg == null) {
+            this.taskContext.logger.error(`Subpackage ${packageId} not found in ${this.apiDefinitionId}`);
+            return [];
+        }
+
+        // if an endpoint, websocket, webhook, or subpackage is not visited, add it to the additional children list
+        return this.#convertApiDefinitionPackage(pkg, parentSlug);
+    }
+
+    #convertPlaygroundSettings(
+        playgroundSettings?: docsYml.RawSchemas.PlaygroundSettings
+    ): RapiddocsNavigation.V1.PlaygroundSettings | undefined {
+        return convertPlaygroundSettings(playgroundSettings);
+    }
+
+    private mergeEndpointPairs(children: RapiddocsNavigation.V1.ApiPackageChild[]): RapiddocsNavigation.V1.ApiPackageChild[] {
+        return mergeEndpointPairs({
+            children,
+            findEndpointById: (endpointId: APIV1Read.EndpointId) => this.#holder.endpoints.get(endpointId),
+            stringifyEndpointPathParts: (endpoint: APIV1Read.EndpointDefinition) =>
+                stringifyEndpointPathParts(endpoint.path.parts),
+            disableEndpointPairs: this.disableEndpointPairs,
+            apiDefinitionId: this.apiDefinitionId
+        });
+    }
+}

@@ -1,0 +1,12 @@
+---
+title: Automatically Update
+subtitle: Pull your latest OpenAPI Specification into your Rapiddocs Folder automatically.
+---
+
+If you host your OpenAPI Specification at a publically available URL, you can have Rapiddocs programmatically fetch the latest spec on a preconfigured cadence. By default, this will be done every day and open a new PR on the GitHub repo that contains your Rapiddocs Folder. This feature requires installation of the [Rapiddocs GitHub App](https://github.com/apps/khulnasoft).
+
+```yml title="generators.yml"
+api:
+  path: openapi/openapi.json
+  origin: https://example.com/openapi.json
+```

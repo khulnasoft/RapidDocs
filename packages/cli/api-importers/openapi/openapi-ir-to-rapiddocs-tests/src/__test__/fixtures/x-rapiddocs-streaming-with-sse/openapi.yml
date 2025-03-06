@@ -1,0 +1,49 @@
+openapi: 3.1.0
+info:
+  title: Test extension `x-rapiddocs-audiences` alongside `x-rapiddocs-streaming`.
+  version: 1.0.0
+paths:
+  "/completions/chat":
+    post:
+      x-rapiddocs-sdk-group-name: chatCompletions
+      x-rapiddocs-sdk-method-name: create
+      x-rapiddocs-streaming:
+        format: sse
+        # stream-condition: $request.stream
+        # response:
+        #   $ref: "#/components/schemas/Completion"
+        # response-stream:
+        #   $ref: "#/components/schemas/CompletionChunk"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCompletionRequest"
+      responses:
+        "200":
+          description: "Success!"
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    CreateCompletionRequest: 
+      type: object
+      properties:
+        stream: 
+          type: boolean
+        prompt: 
+          type: string
+      required: 
+        - prompt
+    Completion:
+      type: object
+      properties:
+        text: 
+          type: string 
+    CompletionChunk:
+      type: object
+      properties:
+        text: 
+          type: string

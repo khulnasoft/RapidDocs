@@ -1,0 +1,12 @@
+{
+    "ignores": [
+        "@types/jest",
+        "globals",
+        "@trivago/prettier-plugin-sort-imports",
+        "@types/node",
+        "@rapiddocs-rapiddocs/ir-sdk"
+    ],
+    "ignore-patterns": [
+        "lib"
+    ]
+}

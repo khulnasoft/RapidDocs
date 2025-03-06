@@ -1,0 +1,12 @@
+default-group: sdks
+groups:
+  sdks:
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.39.5
+        output: 
+          location: npm
+          url: npm.buildwithrapiddocs.com
+          package-name: "@rapiddocs-rapiddocs/postman-sdk"
+        config: 
+          timeoutInSeconds: infinity

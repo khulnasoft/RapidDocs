@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: Test extension `x-rapiddocs-audiences`
+  version: 1.0.0
+servers:
+  - url: https://api.com
+    x-rapiddocs-server-name: production
+    x-rapiddocs-audiences: [ "public" ]
+  - url: https://private.api.com
+    x-rapiddocs-server-name: sandbox
+    x-rapiddocs-audiences: [ "private" ]
+paths: 
+  /v1/users: 
+    post: 
+     requestBody: 
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                public_property:
+                  type: string
+                  x-rapiddocs-audiences: [ "public" ]
+                private_property:
+                  type: string
+components:
+  schemas:
+    BaseUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          x-rapiddocs-audiences: [ "public" ]

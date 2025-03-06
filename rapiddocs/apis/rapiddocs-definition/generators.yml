@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://schema.buildwithrapiddocs.dev/generators-yml.json
+
+default-group: local
+groups:
+  local:
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.45.1
+        output:
+          location: local-file-system
+          path: ../../../packages/cli/rapiddocs-definition/schema/src/schemas
+        config:
+          outputSourceFiles: true
+          namespaceExport: RapiddocsDefinition
+          retainOriginalCasing: true
+
+  docs-parsers:
+    audiences:
+      - docs-parsers
+    generators:
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.39.3
+        output:
+          location: npm
+          url: npm.buildwithrapiddocs.com
+          package-name: "@rapiddocs-rapiddocs/docs-parsers-rapiddocs-definition"
+        config:
+          outputSourceFiles: true
+          namespaceExport: RapiddocsDefinition
+          retainOriginalCasing: true

@@ -1,0 +1,55 @@
+{
+  "type": "openapi",
+  "value": {
+    "openapi": "3.1.0",
+    "info": {
+      "title": "Test extension `x-rapiddocs-audiences` alongside `x-rapiddocs-streaming`.",
+      "version": "1.0.0"
+    },
+    "x-rapiddocs-idempotency-headers": [
+      {
+        "header": "Idempotency-Key"
+      }
+    ],
+    "paths": {
+      "/send": {
+        "post": {
+          "x-rapiddocs-sdk-method-name": "send",
+          "x-rapiddocs-idempotent": true,
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "send": {
+                      "type": "boolean",
+                      "x-rapiddocs-audiences": [
+                        "public"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success!",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "name": "@khulnasoft/docs-preview",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khulnasoft/rapiddocs.git",
+    "directory": "packages/cli/docs-preview"
+  },
+  "private": true,
+  "files": [
+    "lib"
+  ],
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf ./lib && tsc --build --clean",
+    "compile": "tsc --build",
+    "test": "vitest --run",
+    "test:update": "vitest --run -u",
+    "lint:eslint": "eslint --max-warnings 0 . --ignore-pattern=../../../.eslintignore",
+    "lint:eslint:fix": "yarn lint:eslint --fix",
+    "format": "prettier --write --ignore-unknown --ignore-path ../../../shared/.prettierignore \"**\"",
+    "format:check": "prettier --check --ignore-unknown --ignore-path ../../../shared/.prettierignore \"**\"",
+    "depcheck": "depcheck"
+  },
+  "dependencies": {
+    "@khulnasoft/docs-resolver": "workspace:*",
+    "@khulnasoft/fdr-sdk": "0.132.0-26ae3d805",
+    "@khulnasoft/fs-utils": "workspace:*",
+    "@khulnasoft/ir-sdk": "workspace:*",
+    "@khulnasoft/logger": "workspace:*",
+    "@khulnasoft/project-loader": "workspace:*",
+    "@khulnasoft/register": "workspace:*",
+    "@khulnasoft/task-context": "workspace:*",
+    "@rapiddocs-typescript/fetcher": "workspace:*",
+    "chalk": "^5.3.0",
+    "cors": "^2.8.5",
+    "decompress": "^4.2.1",
+    "express": "^4.21.2",
+    "tmp-promise": "^3.0.3",
+    "uuid": "^9.0.1",
+    "watcher": "^2.3.1",
+    "ws": "^8.17.1",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@khulnasoft/configs": "workspace:*",
+    "@types/node": "18.15.3",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.56.0",
+    "prettier": "^3.4.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
+    "typescript": "5.7.2",
+    "@types/cors": "^2.8.13",
+    "@types/decompress": "^4.2.7",
+    "@types/express": "^4.17.21",
+    "@types/uuid": "^9.0.8",
+    "@types/ws": "^8.5.10",
+    "@types/xml2js": "^0.4.14",
+    "vitest": "^2.1.9"
+  }
+}

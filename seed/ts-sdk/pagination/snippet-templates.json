@@ -1,0 +1,2028 @@
+[
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/conversations/search",
+            "method": "POST",
+            "identifierOverride": "endpoint_complex.search"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.complex.search(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "$RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "inputDelimiter": ",\n\t\t",
+                                        "templateInputs": [
+                                            {
+                                                "value": {
+                                                    "imports": [],
+                                                    "templateString": "pagination: {\n\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t}",
+                                                    "isOptional": true,
+                                                    "inputDelimiter": ",\n\t\t\t\t",
+                                                    "templateInputs": [
+                                                        {
+                                                            "value": {
+                                                                "imports": [],
+                                                                "templateString": "perPage: $RAPIDDOCS_INPUT",
+                                                                "isOptional": true,
+                                                                "templateInputs": [
+                                                                    {
+                                                                        "location": "BODY",
+                                                                        "path": "pagination.per_page",
+                                                                        "type": "payload"
+                                                                    }
+                                                                ],
+                                                                "type": "generic"
+                                                            },
+                                                            "type": "template"
+                                                        },
+                                                        {
+                                                            "value": {
+                                                                "imports": [],
+                                                                "templateString": "startingAfter: $RAPIDDOCS_INPUT",
+                                                                "isOptional": true,
+                                                                "templateInputs": [
+                                                                    {
+                                                                        "location": "BODY",
+                                                                        "path": "pagination.starting_after",
+                                                                        "type": "payload"
+                                                                    }
+                                                                ],
+                                                                "type": "generic"
+                                                            },
+                                                            "type": "template"
+                                                        }
+                                                    ],
+                                                    "type": "generic"
+                                                },
+                                                "type": "template"
+                                            },
+                                            {
+                                                "value": {
+                                                    "imports": [],
+                                                    "isOptional": true,
+                                                    "templateString": "query: $RAPIDDOCS_INPUT",
+                                                    "members": [
+                                                        {
+                                                            "template": {
+                                                                "imports": [],
+                                                                "templateString": "$RAPIDDOCS_INPUT",
+                                                                "isOptional": true,
+                                                                "inputDelimiter": ",\n\t\t\t\t",
+                                                                "templateInputs": [
+                                                                    {
+                                                                        "value": {
+                                                                            "imports": [],
+                                                                            "templateString": "field: $RAPIDDOCS_INPUT",
+                                                                            "isOptional": true,
+                                                                            "templateInputs": [
+                                                                                {
+                                                                                    "location": "RELATIVE",
+                                                                                    "path": "field",
+                                                                                    "type": "payload"
+                                                                                }
+                                                                            ],
+                                                                            "type": "generic"
+                                                                        },
+                                                                        "type": "template"
+                                                                    },
+                                                                    {
+                                                                        "value": {
+                                                                            "imports": [],
+                                                                            "isOptional": true,
+                                                                            "values": {
+                                                                                "=": "\"=\"",
+                                                                                "!=": "\"!=\"",
+                                                                                "IN": "\"IN\"",
+                                                                                "NIN": "\"NIN\"",
+                                                                                "<": "\"<\"",
+                                                                                ">": "\">\"",
+                                                                                "~": "\"~\"",
+                                                                                "!~": "\"!~\"",
+                                                                                "^": "\"^\"",
+                                                                                "$": "\"$\""
+                                                                            },
+                                                                            "templateString": "operator: $RAPIDDOCS_INPUT",
+                                                                            "templateInput": {
+                                                                                "location": "RELATIVE",
+                                                                                "path": "operator",
+                                                                                "type": "payload"
+                                                                            },
+                                                                            "type": "enum"
+                                                                        },
+                                                                        "type": "template"
+                                                                    },
+                                                                    {
+                                                                        "value": {
+                                                                            "imports": [],
+                                                                            "templateString": "value: $RAPIDDOCS_INPUT",
+                                                                            "isOptional": true,
+                                                                            "templateInputs": [
+                                                                                {
+                                                                                    "location": "RELATIVE",
+                                                                                    "path": "value",
+                                                                                    "type": "payload"
+                                                                                }
+                                                                            ],
+                                                                            "type": "generic"
+                                                                        },
+                                                                        "type": "template"
+                                                                    }
+                                                                ],
+                                                                "type": "generic"
+                                                            },
+                                                            "type": {
+                                                                "value": "type_complex:SingleFilterSearchRequest",
+                                                                "type": "id"
+                                                            }
+                                                        },
+                                                        {
+                                                            "template": {
+                                                                "imports": [],
+                                                                "templateString": "$RAPIDDOCS_INPUT",
+                                                                "isOptional": true,
+                                                                "inputDelimiter": ",\n\t\t\t\t",
+                                                                "templateInputs": [
+                                                                    {
+                                                                        "value": {
+                                                                            "imports": [],
+                                                                            "isOptional": true,
+                                                                            "values": {
+                                                                                "AND": "\"AND\"",
+                                                                                "OR": "\"OR\""
+                                                                            },
+                                                                            "templateString": "operator: $RAPIDDOCS_INPUT",
+                                                                            "templateInput": {
+                                                                                "location": "RELATIVE",
+                                                                                "path": "operator",
+                                                                                "type": "payload"
+                                                                            },
+                                                                            "type": "enum"
+                                                                        },
+                                                                        "type": "template"
+                                                                    },
+                                                                    {
+                                                                        "value": {
+                                                                            "imports": [],
+                                                                            "isOptional": true,
+                                                                            "templateString": "value: $RAPIDDOCS_INPUT",
+                                                                            "members": [
+                                                                                {
+                                                                                    "template": {
+                                                                                        "imports": [],
+                                                                                        "isOptional": true,
+                                                                                        "containerTemplateString": "[\n\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t]",
+                                                                                        "delimiter": ",\n\t\t\t\t\t\t\t",
+                                                                                        "innerTemplate": {
+                                                                                            "imports": [],
+                                                                                            "templateString": "{\n\t\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t\t}",
+                                                                                            "isOptional": true,
+                                                                                            "inputDelimiter": ",\n\t\t\t\t\t\t\t\t",
+                                                                                            "templateInputs": [
+                                                                                                {
+                                                                                                    "value": {
+                                                                                                        "imports": [],
+                                                                                                        "isOptional": true,
+                                                                                                        "values": {
+                                                                                                            "AND": "\"AND\"",
+                                                                                                            "OR": "\"OR\""
+                                                                                                        },
+                                                                                                        "templateString": "operator: $RAPIDDOCS_INPUT",
+                                                                                                        "templateInput": {
+                                                                                                            "location": "RELATIVE",
+                                                                                                            "path": "operator",
+                                                                                                            "type": "payload"
+                                                                                                        },
+                                                                                                        "type": "enum"
+                                                                                                    },
+                                                                                                    "type": "template"
+                                                                                                },
+                                                                                                {
+                                                                                                    "value": {
+                                                                                                        "imports": [],
+                                                                                                        "isOptional": true,
+                                                                                                        "templateString": "value: $RAPIDDOCS_INPUT",
+                                                                                                        "members": [
+                                                                                                            {
+                                                                                                                "template": {
+                                                                                                                    "imports": [],
+                                                                                                                    "isOptional": true,
+                                                                                                                    "containerTemplateString": "[\n\t\t\t\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t\t\t\t]",
+                                                                                                                    "delimiter": ",\n\t\t\t\t\t\t\t\t\t\t",
+                                                                                                                    "innerTemplate": {
+                                                                                                                        "imports": [],
+                                                                                                                        "templateString": "{\n\t\t\t\t\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t\t\t\t\t}",
+                                                                                                                        "isOptional": true,
+                                                                                                                        "inputDelimiter": ",\n\t\t\t\t\t\t\t\t\t\t\t",
+                                                                                                                        "templateInputs": [],
+                                                                                                                        "type": "generic"
+                                                                                                                    },
+                                                                                                                    "templateInput": {
+                                                                                                                        "location": "RELATIVE",
+                                                                                                                        "type": "payload"
+                                                                                                                    },
+                                                                                                                    "type": "iterable"
+                                                                                                                },
+                                                                                                                "type": {
+                                                                                                                    "itemType": {
+                                                                                                                        "value": "type_complex:MultipleFilterSearchRequest",
+                                                                                                                        "type": "id"
+                                                                                                                    },
+                                                                                                                    "type": "list"
+                                                                                                                }
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "template": {
+                                                                                                                    "imports": [],
+                                                                                                                    "isOptional": true,
+                                                                                                                    "containerTemplateString": "[\n\t\t\t\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t\t\t\t]",
+                                                                                                                    "delimiter": ",\n\t\t\t\t\t\t\t\t\t\t",
+                                                                                                                    "innerTemplate": {
+                                                                                                                        "imports": [],
+                                                                                                                        "templateString": "{\n\t\t\t\t\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t\t\t\t\t}",
+                                                                                                                        "isOptional": true,
+                                                                                                                        "inputDelimiter": ",\n\t\t\t\t\t\t\t\t\t\t\t",
+                                                                                                                        "templateInputs": [],
+                                                                                                                        "type": "generic"
+                                                                                                                    },
+                                                                                                                    "templateInput": {
+                                                                                                                        "location": "RELATIVE",
+                                                                                                                        "type": "payload"
+                                                                                                                    },
+                                                                                                                    "type": "iterable"
+                                                                                                                },
+                                                                                                                "type": {
+                                                                                                                    "itemType": {
+                                                                                                                        "value": "type_complex:SingleFilterSearchRequest",
+                                                                                                                        "type": "id"
+                                                                                                                    },
+                                                                                                                    "type": "list"
+                                                                                                                }
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "templateInput": {
+                                                                                                            "location": "RELATIVE",
+                                                                                                            "path": "value",
+                                                                                                            "type": "payload"
+                                                                                                        },
+                                                                                                        "type": "union_v2"
+                                                                                                    },
+                                                                                                    "type": "template"
+                                                                                                }
+                                                                                            ],
+                                                                                            "type": "generic"
+                                                                                        },
+                                                                                        "templateInput": {
+                                                                                            "location": "RELATIVE",
+                                                                                            "type": "payload"
+                                                                                        },
+                                                                                        "type": "iterable"
+                                                                                    },
+                                                                                    "type": {
+                                                                                        "itemType": {
+                                                                                            "value": "type_complex:MultipleFilterSearchRequest",
+                                                                                            "type": "id"
+                                                                                        },
+                                                                                        "type": "list"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "template": {
+                                                                                        "imports": [],
+                                                                                        "isOptional": true,
+                                                                                        "containerTemplateString": "[\n\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t]",
+                                                                                        "delimiter": ",\n\t\t\t\t\t\t\t",
+                                                                                        "innerTemplate": {
+                                                                                            "imports": [],
+                                                                                            "templateString": "{\n\t\t\t\t\t\t\t\t$RAPIDDOCS_INPUT\n\t\t\t\t\t\t\t}",
+                                                                                            "isOptional": true,
+                                                                                            "inputDelimiter": ",\n\t\t\t\t\t\t\t\t",
+                                                                                            "templateInputs": [
+                                                                                                {
+                                                                                                    "value": {
+                                                                                                        "imports": [],
+                                                                                                        "templateString": "field: $RAPIDDOCS_INPUT",
+                                                                                                        "isOptional": true,
+                                                                                                        "templateInputs": [
+                                                                                                            {
+                                                                                                                "location": "RELATIVE",
+                                                                                                                "path": "field",
+                                                                                                                "type": "payload"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "type": "generic"
+                                                                                                    },
+                                                                                                    "type": "template"
+                                                                                                },
+                                                                                                {
+                                                                                                    "value": {
+                                                                                                        "imports": [],
+                                                                                                        "isOptional": true,
+                                                                                                        "values": {
+                                                                                                            "=": "\"=\"",
+                                                                                                            "!=": "\"!=\"",
+                                                                                                            "IN": "\"IN\"",
+                                                                                                            "NIN": "\"NIN\"",
+                                                                                                            "<": "\"<\"",
+                                                                                                            ">": "\">\"",
+                                                                                                            "~": "\"~\"",
+                                                                                                            "!~": "\"!~\"",
+                                                                                                            "^": "\"^\"",
+                                                                                                            "$": "\"$\""
+                                                                                                        },
+                                                                                                        "templateString": "operator: $RAPIDDOCS_INPUT",
+                                                                                                        "templateInput": {
+                                                                                                            "location": "RELATIVE",
+                                                                                                            "path": "operator",
+                                                                                                            "type": "payload"
+                                                                                                        },
+                                                                                                        "type": "enum"
+                                                                                                    },
+                                                                                                    "type": "template"
+                                                                                                },
+                                                                                                {
+                                                                                                    "value": {
+                                                                                                        "imports": [],
+                                                                                                        "templateString": "value: $RAPIDDOCS_INPUT",
+                                                                                                        "isOptional": true,
+                                                                                                        "templateInputs": [
+                                                                                                            {
+                                                                                                                "location": "RELATIVE",
+                                                                                                                "path": "value",
+                                                                                                                "type": "payload"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "type": "generic"
+                                                                                                    },
+                                                                                                    "type": "template"
+                                                                                                }
+                                                                                            ],
+                                                                                            "type": "generic"
+                                                                                        },
+                                                                                        "templateInput": {
+                                                                                            "location": "RELATIVE",
+                                                                                            "type": "payload"
+                                                                                        },
+                                                                                        "type": "iterable"
+                                                                                    },
+                                                                                    "type": {
+                                                                                        "itemType": {
+                                                                                            "value": "type_complex:SingleFilterSearchRequest",
+                                                                                            "type": "id"
+                                                                                        },
+                                                                                        "type": "list"
+                                                                                    }
+                                                                                }
+                                                                            ],
+                                                                            "templateInput": {
+                                                                                "location": "RELATIVE",
+                                                                                "path": "value",
+                                                                                "type": "payload"
+                                                                            },
+                                                                            "type": "union_v2"
+                                                                        },
+                                                                        "type": "template"
+                                                                    }
+                                                                ],
+                                                                "type": "generic"
+                                                            },
+                                                            "type": {
+                                                                "value": "type_complex:MultipleFilterSearchRequest",
+                                                                "type": "id"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "templateInput": {
+                                                        "location": "BODY",
+                                                        "path": "query",
+                                                        "type": "payload"
+                                                    },
+                                                    "type": "union_v2"
+                                                },
+                                                "type": "template"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithCursorPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithCursorPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "page: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "perPage: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "per_page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "values": {
+                                            "asc": "\"asc\"",
+                                            "desc": "\"desc\""
+                                        },
+                                        "templateString": "order: $RAPIDDOCS_INPUT",
+                                        "templateInput": {
+                                            "location": "QUERY",
+                                            "path": "order",
+                                            "type": "payload"
+                                        },
+                                        "type": "enum"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "startingAfter: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "starting_after",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "POST",
+            "identifierOverride": "endpoint_users.listWithMixedTypeCursorPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithMixedTypeCursorPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "cursor: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "cursor",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "POST",
+            "identifierOverride": "endpoint_users.listWithBodyCursorPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithBodyCursorPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "pagination: {\n\t\t\t$RAPIDDOCS_INPUT\n\t\t}",
+                                        "isOptional": true,
+                                        "inputDelimiter": ",\n\t\t\t",
+                                        "templateInputs": [
+                                            {
+                                                "value": {
+                                                    "imports": [],
+                                                    "templateString": "cursor: $RAPIDDOCS_INPUT",
+                                                    "isOptional": true,
+                                                    "templateInputs": [
+                                                        {
+                                                            "location": "BODY",
+                                                            "path": "pagination.cursor",
+                                                            "type": "payload"
+                                                        }
+                                                    ],
+                                                    "type": "generic"
+                                                },
+                                                "type": "template"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithOffsetPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithOffsetPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "page: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "perPage: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "per_page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "values": {
+                                            "asc": "\"asc\"",
+                                            "desc": "\"desc\""
+                                        },
+                                        "templateString": "order: $RAPIDDOCS_INPUT",
+                                        "templateInput": {
+                                            "location": "QUERY",
+                                            "path": "order",
+                                            "type": "payload"
+                                        },
+                                        "type": "enum"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "startingAfter: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "starting_after",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithDoubleOffsetPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithDoubleOffsetPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "page: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "perPage: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "per_page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "values": {
+                                            "asc": "\"asc\"",
+                                            "desc": "\"desc\""
+                                        },
+                                        "templateString": "order: $RAPIDDOCS_INPUT",
+                                        "templateInput": {
+                                            "location": "QUERY",
+                                            "path": "order",
+                                            "type": "payload"
+                                        },
+                                        "type": "enum"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "startingAfter: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "starting_after",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "POST",
+            "identifierOverride": "endpoint_users.listWithBodyOffsetPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithBodyOffsetPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "pagination: {\n\t\t\t$RAPIDDOCS_INPUT\n\t\t}",
+                                        "isOptional": true,
+                                        "inputDelimiter": ",\n\t\t\t",
+                                        "templateInputs": [
+                                            {
+                                                "value": {
+                                                    "imports": [],
+                                                    "templateString": "page: $RAPIDDOCS_INPUT",
+                                                    "isOptional": true,
+                                                    "templateInputs": [
+                                                        {
+                                                            "location": "BODY",
+                                                            "path": "pagination.page",
+                                                            "type": "payload"
+                                                        }
+                                                    ],
+                                                    "type": "generic"
+                                                },
+                                                "type": "template"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithOffsetStepPagination"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithOffsetStepPagination(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "page: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "limit: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "limit",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "values": {
+                                            "asc": "\"asc\"",
+                                            "desc": "\"desc\""
+                                        },
+                                        "templateString": "order: $RAPIDDOCS_INPUT",
+                                        "templateInput": {
+                                            "location": "QUERY",
+                                            "path": "order",
+                                            "type": "payload"
+                                        },
+                                        "type": "enum"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithOffsetPaginationHasNextPage"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithOffsetPaginationHasNextPage(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "page: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "page",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "limit: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "limit",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "isOptional": true,
+                                        "values": {
+                                            "asc": "\"asc\"",
+                                            "desc": "\"desc\""
+                                        },
+                                        "templateString": "order: $RAPIDDOCS_INPUT",
+                                        "templateInput": {
+                                            "location": "QUERY",
+                                            "path": "order",
+                                            "type": "payload"
+                                        },
+                                        "type": "enum"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithExtendedResults"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithExtendedResults(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "cursor: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "cursor",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithExtendedResultsAndOptionalData"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithExtendedResultsAndOptionalData(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "cursor: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "cursor",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listUsernames"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listUsernames(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "startingAfter: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "starting_after",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listUsernamesCustom"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listUsernamesCustom(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "startingAfter: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "starting_after",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    },
+    {
+        "sdk": {
+            "package": "@rapiddocs/pagination",
+            "version": "0.0.1",
+            "type": "typescript"
+        },
+        "endpointId": {
+            "path": "/users",
+            "method": "GET",
+            "identifierOverride": "endpoint_users.listWithGlobalConfig"
+        },
+        "snippetTemplate": {
+            "clientInstantiation": {
+                "imports": [
+                    "import { SeedPaginationClient } from \"@rapiddocs/pagination\";"
+                ],
+                "templateString": "const client = new SeedPaginationClient($RAPIDDOCS_INPUT);",
+                "isOptional": false,
+                "inputDelimiter": ",",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{ $RAPIDDOCS_INPUT }",
+                            "isOptional": true,
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "environment: \"YOUR_BASE_URL\"",
+                                        "isOptional": false,
+                                        "templateInputs": [],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                },
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "token: $RAPIDDOCS_INPUT",
+                                        "isOptional": false,
+                                        "templateInputs": [
+                                            {
+                                                "location": "AUTH",
+                                                "path": "token",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "functionInvocation": {
+                "imports": [],
+                "templateString": "await client.users.listWithGlobalConfig(\n\t$RAPIDDOCS_INPUT\n)",
+                "isOptional": false,
+                "inputDelimiter": ",\n\t",
+                "templateInputs": [
+                    {
+                        "value": {
+                            "imports": [],
+                            "templateString": "{\n\t\t$RAPIDDOCS_INPUT\n\t}",
+                            "isOptional": true,
+                            "inputDelimiter": ",\n\t\t",
+                            "templateInputs": [
+                                {
+                                    "value": {
+                                        "imports": [],
+                                        "templateString": "offset: $RAPIDDOCS_INPUT",
+                                        "isOptional": true,
+                                        "templateInputs": [
+                                            {
+                                                "location": "QUERY",
+                                                "path": "offset",
+                                                "type": "payload"
+                                            }
+                                        ],
+                                        "type": "generic"
+                                    },
+                                    "type": "template"
+                                }
+                            ],
+                            "type": "generic"
+                        },
+                        "type": "template"
+                    }
+                ],
+                "type": "generic"
+            },
+            "type": "v1"
+        }
+    }
+]

@@ -1,0 +1,15 @@
+generators:
+  - name: rapiddocsapi/rapiddocs-typescript
+    version: 0.0.144
+    config:
+      mode: model
+  - name: rapiddocsapi/rapiddocs-java
+    version: 0.0.84
+    generate: true
+    config:
+      packagePrefix: "com.rapiddocs"
+      mode: MODEL
+  - name: rapiddocsapi/rapiddocs-postman
+    version: 0.0.18
+  - name: rapiddocsapi/rapiddocs-openapi
+    version: 0.0.5

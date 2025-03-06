@@ -1,0 +1,128 @@
+---
+title: The Rapiddocs Folder
+description: Describes the Rapiddocs folder structure
+---
+
+Configuring rapiddocs starts with the `rapiddocs` folder. The rapiddocs folder contains your API definitions,
+generators, and your CLI version.
+
+## Directory structure
+
+When you run `rapiddocs init`, your Rapiddocs folder will be initialized with the following files:
+```bash
+rapiddocs/
+  ├─ rapiddocs.config.json
+  ├─ generators.yml
+  └─ definition/
+    ├─ api.yml
+    └─ imdb.yml
+```
+
+If you want to initialize Rapiddocs with an OpenAPI Specification, run `rapiddocs init --openapi path/to/openapi` instead.
+```yaml
+rapiddocs/
+  ├─ rapiddocs.config.json
+  ├─ generators.yml # required on Rapiddocs version 0.41.0 and above
+  └─ openapi/
+    ├─ openapi.yml
+```
+
+### `rapiddocs.config.json`
+
+Every rapiddocs folder has a single `rapiddocs.config.json` file. This file stores the organization and
+the version of the Rapiddocs CLI that you are using. 
+
+```json
+{
+    "organization": "imdb",
+    "version": "0.31.2"
+}
+```
+
+Every time you run a rapiddocs CLI command, the CLI downloads itself at the correct version to ensure 
+determinism. 
+
+<Note>To upgrade the CLI, run `rapiddocs upgrade`. This will update the version field in `rapiddocs.config.json` </Note>
+
+### `generators.yml`
+
+The `generators.yml` file can include information about where your API specification is located, along with which generators you are using, where each package gets published, as well as configuration specific to each generator. 
+
+<AccordionGroup>
+<Accordion title="generators.yml for Python + TypeScript SDKs">
+```yaml
+api: 
+  path: ./path/to/openapi.yml
+groups:
+  public:
+    generators:
+      - name: rapiddocsapi/rapiddocs-python-sdk
+        version: 3.0.0
+        output:
+          location: pypi
+          package-name: imdb
+          token: ${PYPI_TOKEN}
+        github:
+          repository: imdb/imdb-python
+        config:
+          client_class_name: imdb
+      - name: rapiddocsapi/rapiddocs-typescript-node-sdk
+        version: 0.31.0
+        output:
+          location: npm
+          package-name: imdb
+          token: ${NPM_TOKEN}
+        github:
+          repository: imdb/imdb-node
+        config:
+          namespaceExport: imdb
+```
+</Accordion>
+<Accordion title="generators.yml for locating an API definition">
+```yaml
+api: 
+  path: ./path/to/openapi.yml
+```
+</Accordion>
+</AccordionGroup>
+
+## Multiple APIs
+
+The Rapiddocs folder is capable of housing multiple API definitions. Instead of placing your API definition at the top-level, you can nest them within an `apis` folder. Be sure to include a `generators.yml` file within each API folder that specifies the location of the API definition. 
+
+<Tabs>
+<Tab title="OpenAPI Definition">
+```bash
+rapiddocs/
+  ├─ rapiddocs.config.json
+  ├─ generators.yml
+  └─ apis/
+    └─ imdb/
+        ├─ generators.yml
+        └─ openapi/
+          ├─ openapi.yml
+    └─ disney/
+        ├─ generators.yml
+        └─ openapi/
+          ├─ openapi.yml
+```
+</Tab>
+<Tab title="Rapiddocs Definition">
+```bash
+rapiddocs/
+  ├─ rapiddocs.config.json
+  ├─ generators.yml
+  └─ apis/
+    └─ imdb/
+        ├─ generators.yml
+        └─ definition/
+          ├─ api.yml
+          └─ imdb.yml
+    └─ disney/
+        ├─ generators.yml
+        └─ definition/
+          ├─ api.yml
+          └─ disney.yml
+```
+</Tab>
+</Tabs>

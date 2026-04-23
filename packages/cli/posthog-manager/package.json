@@ -31,7 +31,7 @@
     "@khulnasoft/fs-utils": "workspace:*",
     "@khulnasoft/task-context": "workspace:*",
     "posthog-node": "^4.2.1",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@khulnasoft/configs": "workspace:*",
